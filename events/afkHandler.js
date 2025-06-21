@@ -38,8 +38,8 @@ module.exports = (client) => {
       const user = client.users.cache.get(afk.userId);
       if (user) {
         const embed = new EmbedBuilder()
-          .setTitle('AFK Status Expired')
-          .setDescription(`Your AFK status has expired.\n**Reason:** ${afk.reason}`)
+          .setTitle('AFK expirado.')
+          .setDescription(`Tu estado AFK ha expirado..\n**Reason:** ${afk.reason}`)
           .setColor(0xffcc00)
           .setTimestamp();
 
@@ -70,7 +70,7 @@ module.exports = (client) => {
       if (afk && !afkReplySent) {
         const embed = new EmbedBuilder()
           .setAuthor({ 
-            name: "AFK Notification", 
+            name: "AFK Notificación", 
             iconURL: ticketIcons.correctIcon ,
             url: "https://discord.gg/xQF9f9yUEM"
             })
@@ -102,11 +102,11 @@ module.exports = (client) => {
 
       const embed = new EmbedBuilder()
         .setAuthor({ 
-        name: "AFK Notification", 
+        name: "AFK Notificación", 
         iconURL: ticketIcons.correctIcon ,
         url: "https://discord.gg/xQF9f9yUEM"
         })
-        .setDescription(`Welcome back, <@${message.author.id}>! Your AFK status has been removed.`)
+        .setDescription(`Bienvenido de vuelta, <@${message.author.id}>! Has dejado de estar en AFK.`)
         .setColor(0x00ff7f)
         .setTimestamp();
 
@@ -114,11 +114,11 @@ module.exports = (client) => {
 
       const dmEmbed = new EmbedBuilder()
         .setAuthor({ 
-        name: "AFK Notification", 
+        name: "AFK Notificación", 
         iconURL: ticketIcons.correctIcon ,
         url: "https://discord.gg/xQF9f9yUEM"
         })
-        .setDescription('You are active again, so your AFK status has been removed.')
+        .setDescription('Estas activo de vuelta, entonces se te a removido estar en AFK')
         .setColor(0x00ff7f)
         .setTimestamp();
 
@@ -133,7 +133,7 @@ module.exports = (client) => {
         await removeExpiredAFKs();
         //console.log('\x1b[36m[ AFK Handler ]\x1b[0m', 'Expired AFK statuses cleaned up.');
       } catch (error) {
-        console.error('Error cleaning up expired AFK statuses:', error);
+        console.error('Error al limpiar los estados AFK expirados:', error);
       }
     }, 60000); // Runs every 60 seconds
   });
