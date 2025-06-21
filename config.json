@@ -6,7 +6,7 @@
     "excessCommands": {
         "utility": true,
         "other": true,
-        "hentai": true,
+        "hentai": false,
         "troll": true,
         "economy" : true
     },
