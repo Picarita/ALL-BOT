@@ -54,7 +54,7 @@ const ruleEmbeds = {
         .setColor("Orange")
         .setTitle("🚷 Harassment Rules")
         .setDescription(
-            "**1️⃣ No ataques personales: no insultes ni ataques a otros.\n" +
+            "**1️⃣ No ataques personales:** no insultes ni ataques a otros.\n" +
             "**2️⃣ No discrimines:** Está prohibido el racismo, sexismo, homofobia o discriminación.\n" +
             "**3️⃣ No amenazas ni doxing:** No amenaces ni compartas datos privados.\n" +
             "**4️⃣ No trolling excesivo:** Bromas ligeras están bien, ser molesto no."
