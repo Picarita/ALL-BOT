@@ -117,22 +117,22 @@ module.exports = {
 
                 
                 pages.push({
-                    title: '✨ ALL IN ONE BOT',
+                    title: '✨ TODO EN UN BOT',
                     description: [
-                        '### THE DISCORD OPERATING SYSTEM',
+                        '### EL SISTEMA OPERATIVO DE DISCORD',
                         '',
-                        '> The ultimate Discord bot for all your server needs',
+                        '> El bot definitivo de Discord',
                         '',
-                        '**BOT STATISTICS**',
+                        '**ESTADÍSTICAS DEL BOT**',
                         `\`🧠\` **Version:** 1.2.2`,
-                        `\`🛠️\` **Total Commands:** ${totalCount}`,
-                        `\`⚙️\` **Commands Loaded:** ${totalCommandsLoaded}`,
-                        `\`📌\` **Master Commands:** ${masterCount}`,
-                        `\`📎\` **Sub Commands:** ${subCount}`,
-                        `\`💻\` **Prefix Commands:** ${Object.values(config.excessCommands).some(v => v) ? '`Enabled`' : '`Disabled`'}`,
+                        `\`🛠️\` **Comandos Totales:** ${totalCount}`,
+                        `\`⚙️\` **Comandos cargados:** ${totalCommandsLoaded}`,
+                        `\`📌\` **Comandos Master:** ${masterCount}`,
+                        `\`📎\` **Sub Comandos:** ${subCount}`,
+                        `\`💻\` **Comandos con Prefijo:** ${Object.values(config.excessCommands).some(v => v) ? '`Enabled`' : '`Disabled`'}`,
                         '',
                     ].join('\n'),
-                    author: { name: 'ALL IN ONE BOT • COMMAND CENTER' },
+                    author: { name: 'TODO EN UN BOT • COMMAND CENTER' },
                     icon: '📚'
                 });
 
@@ -166,11 +166,11 @@ module.exports = {
                         description: [
                             `### ${category.toUpperCase()} COMMAND MODULE`,
                             '',
-                            '**MODULE STATISTICS**',
-                            `\`📊\` **Total Commands:** ${totalNoOfCommands}`,
-                            `\`🔍\` **Master Commands:** ${commands.length}`,
+                            '**ESTADÍSTICAS DE MÓDULOS**',
+                            `\`📊\` **Comandos Totales:** ${totalNoOfCommands}`,
+                            `\`🔍\` **Comandos Master:** ${commands.length}`,
                             `\`🔗\` **Integrated Subcommands:** ${totalSubcommands}`,
-                            `\`⌨️\` **Usage Type:** ${type === 'slash' ? '`Slash Commands`' : `\`Prefix: ${config.prefix}\``}`,
+                            `\`⌨️\` **Tipo de uso:** ${type === 'slash' ? '`Slash Commands`' : `\`Prefix: ${config.prefix}\``}`,
                             ''
                         ].join('\n'),
                         commands: commandLines,
@@ -237,7 +237,7 @@ module.exports = {
                         }
                         embed.setFields(fields);
                     } else {
-                        embed.setFields([{ name: '💎 Available Commands', value: joinedCommands }]);
+                        embed.setFields([{ name: '💎 Comandos Disponibles', value: joinedCommands }]);
                     }
                 }
                 return embed;
@@ -249,7 +249,7 @@ module.exports = {
                 const row1 = new ActionRowBuilder().addComponents(
                     new StringSelectMenuBuilder()
                         .setCustomId('pageSelect')
-                        .setPlaceholder('📋 Select a category...')
+                        .setPlaceholder('📋 Selecciona la categotía...')
                         .addOptions(currentSet.map((page, i) => {
                             return {
                                 label: page.title.replace(/^[^\w\s]\s*/, ''), 
@@ -335,7 +335,7 @@ module.exports = {
                     try {
                         const errorMethod = i.replied || i.deferred ? i.editReply : i.reply;
                         await errorMethod.call(i, {
-                            content: '⚠️ An error occurred while processing your interaction. Please try again.',
+                            content: '⚠️ Ocurrió un error al procesar tu interacción. Por favor, inténtalo de nuevo.',
                             ephemeral: true
                         });
                     } catch (secondaryError) {
@@ -364,7 +364,7 @@ module.exports = {
                     });
                     
                     interaction.editReply({ 
-                        content: "⏱️ Help command session expired. Use `/help` again to restart."
+                        content: "⏱️ La sesión del comando de ayuda expiró. Usa /help nuevamente para reiniciar."
                     }).catch((error) => {
                         //console.error('Failed to update expired components:', error);
                     });
@@ -380,7 +380,7 @@ module.exports = {
                     iconURL: cmdIcons.dotIcon,
                     url: "https://discord.gg/xQF9f9yUEM"
                 })
-                .setDescription('> ⚠️ This command can only be used as a slash command!\n> Please use `/help` instead.')
+                .setDescription('> ⚠️ Este comando solo se puede usar como comando slash!\n> Por favor, usa /help en su lugar.')
                 .setFooter({ text: 'All In One Bot • Error' })
                 .setTimestamp();
 
