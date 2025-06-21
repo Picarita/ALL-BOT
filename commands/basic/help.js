@@ -8,7 +8,7 @@ const { helpBanner } = require('../../UI/banners/SetupBanners');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('help')
-        .setDescription('Displays the command list and bot information'),
+        .setDescription('Muestra la lista de comandos e información del bot'),
 
     async execute(interaction) {
       
