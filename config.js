@@ -4,7 +4,7 @@ module.exports = {
   ownerId: '1004206704994566164',
   status: {
     rotateDefault: [
-      { name: 'Picarita', type: ActivityType.Listening },
+      { name: 'Picaritta', type: ActivityType.Listening },
     ],
     songStatus: true
   },
