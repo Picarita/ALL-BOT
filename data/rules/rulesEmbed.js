@@ -1,4 +1,4 @@
-/*
+ar /*
 
 ☆.。.:*・°☆.。.:*・°☆.。.:*・°☆.。.:*・°☆
                                                  
@@ -25,133 +25,131 @@ const ruleEmbeds = {
         .setColor("Red")
         .setTitle("🚫 Spam Rules")
         .setDescription(
-            "**1️⃣ No excessive messages:** Avoid sending too many messages in a short time.\n" +
-            "**2️⃣ No emoji spam:** Do not flood chat with emojis or stickers.\n" +
-            "**3️⃣ No reaction spam:** Repeatedly adding/removing reactions is disruptive.\n" +
-            "**4️⃣ No copy-pasta:** Long, repetitive text blocks are not allowed.\n" +
-            "**5️⃣ No self-promotion spam:** Promoting your content excessively is forbidden."
+            "**1️⃣ No espamear mensajes:** Evite enviar demasiados mensajes en poco tiempo.\n" +
+            "**2️⃣ No espamear emojis:** No inundes el chat con emojis o stickers.\n" +
+            "**3️⃣ No spamear reacciones:**  No agregar/quitar reacciones repetidamente.\n"
         ),
 
     nsfw: new EmbedBuilder()
         .setColor("DarkPurple")
         .setTitle("🔞 NSFW Rules")
         .setDescription(
-            "**1️⃣ NSFW content is not allowed:** This includes images, text, or links.\n" +
-            "**2️⃣ No inappropriate jokes or discussions:** Keep it clean.\n" +
-            "**3️⃣ No sexual harassment:** Making explicit or suggestive comments is prohibited.\n" +
-            "**4️⃣ No adult roleplay:** This is not an 18+ server."
+            "**1️⃣ No se permite contenido NSFW:** Esto incluye imágenes, texto o enlaces.\n" +
+            "**2️⃣ No bromas ni conversaciones inapropiadas:** Mantén el chat limpio.\n" +
+            "**3️⃣ No acoso sexual:** Está prohibido hacer comentarios explícitos o sugerentes.\n" +
+            "**4️⃣ No juegos de rol para adultos:** Este no es un servidor +18."
         ),
 
     discord_terms: new EmbedBuilder()
         .setColor("Blue")
         .setTitle("📜 Discord Terms & Conditions")
         .setDescription(
-            "**1️⃣ Follow Discord's [Terms of Service](https://discord.com/terms)**.\n" +
-            "**2️⃣ Follow Discord's [Community Guidelines](https://discord.com/guidelines)**.\n" +
-            "**3️⃣ Do not use unauthorized bots, hacks, or exploits.**\n" +
-            "**4️⃣ Do not engage in fraud, scamming, or phishing.**"
+            "**1️⃣ Sigue los [Términos de Servicio de Discord](https://discord.com/terms)**.\n" +
+            "**2️⃣ Sigue las [Normas de la Comunidad de Discord](https://discord.com/guidelines)**.\n" +
+            "**3️⃣ No uses bots, hacks o exploits no autorizados.**\n" +
+            "**4️⃣ No participes en fraudes, estafas o phishing.**"
         ),
 
     harassment: new EmbedBuilder()
         .setColor("Orange")
         .setTitle("🚷 Harassment Rules")
         .setDescription(
-            "**1️⃣ No personal attacks:** Do not insult or target others.\n" +
-            "**2️⃣ No hate speech:** Racism, sexism, homophobia, or any form of discrimination is strictly forbidden.\n" +
-            "**3️⃣ No threats or doxing:** Threatening or sharing private information is a bannable offense.\n" +
-            "**4️⃣ No excessive trolling:** Light jokes are fine, but being disruptive isn't."
+            "**1️⃣ No ataques personales: no insultes ni ataques a otros.\n" +
+            "**2️⃣ No discrimines:** Está prohibido el racismo, sexismo, homofobia o discriminación.\n" +
+            "**3️⃣ No amenazas ni doxing:** No amenaces ni compartas datos privados.\n" +
+            "**4️⃣ No trolling excesivo:** Bromas ligeras están bien, ser molesto no."
         ),
 
     links: new EmbedBuilder()
         .setColor("Yellow")
         .setTitle("🔗 Link Rules")
         .setDescription(
-            "**1️⃣ No posting harmful links:** Malware, scams, or NSFW links are not allowed.\n" +
-            "**2️⃣ No self-promotion outside dedicated channels:** Advertising should only be done where permitted.\n" +
-            "**3️⃣ No IP grabbers, trackers, or shortened links:** Only share safe, verifiable URLs."
+            "**1️⃣ No publicar enlaces dañinos:** Malware, estafas o enlaces NSFW no están permitidos.\n" +
+            "**2️⃣ No autopromoción fuera de los canales dedicados:** La publicidad solo donde esté permitido.\n" +
+            "**3️⃣ No sacar la IP, rastreadores o enlaces acortados:** Comparte solo URLs seguras y verificables."
         ),
 
     images: new EmbedBuilder()
         .setColor("#FF00FF")
         .setTitle("🖼️ Image Rules")
         .setDescription(
-            "**1️⃣ No NSFW or explicit images:** This is a safe space.\n" +
-            "**2️⃣ No graphic violence or gore:** Keep content appropriate.\n" +
-            "**3️⃣ No meme spam:** Keep meme posts reasonable.\n" +
-            "**4️⃣ No offensive or discriminatory images.**"
+            "**1️⃣ No imágenes NSFW o explícitas:** Este es un espacio seguro.\n" +
+            "**2️⃣ No violencia gráfica o gore:** Mantén el contenido apropiado.\n" +
+            "**3️⃣ No spam de memes:** Mantén los memes razonables.\n" +
+            "**4️⃣ No imágenes ofensivas o discriminatorias.**"
         ),
 
     hacking: new EmbedBuilder()
         .setColor("#FF0000")
         .setTitle("🛑 Hacking Rules")
         .setDescription(
-            "**1️⃣ No hacking, cheating, or exploiting:** Do not attempt to hack bots, servers, or users.\n" +
-            "**2️⃣ No sharing exploits or scripts:** Unauthorized software is forbidden.\n" +
-            "**3️⃣ No social engineering or phishing:** Do not trick users into revealing sensitive information.\n" +
-            "**4️⃣ No use of alt accounts to bypass bans or restrictions.**"
+            "**1️⃣ No hackear, hacer trampas o explotar:** No intentes hackear bots, servidores o usuarios.\n" +
+            "**2️⃣ No compartir exploits o scripts:** El software no autorizado está prohibido.\n" +
+            "**3️⃣ No ingeniería social o phishing:** No engañes a usuarios para obtener información sensible.\n" +
+            "**4️⃣ No usar cuentas alternativas para evadir baneos o restricciones.**"
         ),
 
     mic_spam: new EmbedBuilder()
         .setColor("#FFA500")
         .setTitle("🎤 Mic Spam Rules")
         .setDescription(
-            "**1️⃣ No loud, distorted, or annoying sounds:** Do not intentionally disrupt voice chats.\n" +
-            "**2️⃣ No voice changers or soundboards:** Unless allowed in specific channels.\n" +
-            "**3️⃣ No playing music through your mic:** Use the designated music bots instead.\n" +
-            "**4️⃣ No screaming or shouting excessively.**"
+            "**1️⃣ No sonidos fuertes, distorsionados o molestos:** No interrumpas intencionalmente los chats de voz.\n" +
+            "**2️⃣ No modificadores de voz o soundboards:** A menos que esté permitido en canales específicos.\n" +
+            "**3️⃣ No poner música por el micrófono:** Usa los bots de música designados.\n" +
+            "**4️⃣ No gritar en exceso.**"
         ),
 
     bot_usage: new EmbedBuilder()
         .setColor("#008000")
         .setTitle("🤖 Bot Usage Rules")
         .setDescription(
-            "**1️⃣ Do not abuse bot commands:** Use them responsibly.\n" +
-            "**2️⃣ No spamming bot commands in main channels:** Keep it in bot channels.\n" +
-            "**3️⃣ Do not attempt to hack or exploit bots.**"
+            "**1️⃣ No abusar de los comandos de bots:** Úsalos con responsabilidad.\n" +
+            "**2️⃣ No spamear comandos de bots en los canales principales:** Úsalos en los canales de bots.\n" +
+            "**3️⃣ No intentes hackear o explotar los bots.**"
         ),
 
     trading_selling: new EmbedBuilder()
         .setColor("#8B4513")
         .setTitle("💰 Trading & Selling Rules")
         .setDescription(
-            "**1️⃣ No selling accounts, items, or services:** This is not a marketplace.\n" +
-            "**2️⃣ No trading or gambling activities:** Use trusted platforms instead.\n" +
-            "**3️⃣ No advertising personal businesses without permission.**"
+            "**1️⃣ No vender cuentas, artículos o servicios:** Este no es un mercado.\n" +
+            "**2️⃣ No intercambios o actividades de apuestas:** Usa plataformas confiables.\n" +
+            "**3️⃣ No publicitar negocios personales sin permiso.**"
         ),
 
     language: new EmbedBuilder()
         .setColor("#4682B4")
         .setTitle("🗣️ Language Rules")
         .setDescription(
-            "**1️⃣ English only in general channels:** Use other channels for different languages.\n" +
-            "**2️⃣ No excessive swearing:** Keep the chat friendly.\n" +
-            "**3️⃣ No slurs, insults, or offensive language.**"
+            "**1️⃣ Solo Español en los canales generales:** Usa otros canales para otros idiomas.\n" +
+            "**2️⃣ No lenguaje excesivamente vulgar:** Mantén el chat amigable.\n" +
+            "**3️⃣ No insultos, ofensas o lenguaje discriminatorio.**"
         ),
 
     spoilers: new EmbedBuilder()
         .setColor("#A52A2A")
         .setTitle("🎥 Spoiler Rules")
         .setDescription(
-            "**1️⃣ Use spoiler tags for major spoilers:** Example: `||spoiler here||`.\n" +
-            "**2️⃣ No posting spoilers outside designated spoiler channels.**"
+            "**1️⃣ Usa etiquetas de spoiler para spoilers importantes:** Ejemplo: `||spoiler aquí||`.\n" +
+            "**2️⃣ No publiques spoilers fuera de los canales designados.**"
         ),
 
     self_promotion: new EmbedBuilder()
         .setColor("#9370DB")
         .setTitle("📢 Self-Promotion Rules")
         .setDescription(
-            "**1️⃣ No self-promotion outside dedicated channels.**\n" +
-            "**2️⃣ No DM advertising:** Do not send unsolicited links to members.\n" +
-            "**3️⃣ No begging for followers, subscribers, or donations.**"
+            "**1️⃣ No autopromoción fuera de los canales dedicados.**\n" +
+            "**2️⃣ No publicidad por mensajes privados:** No envíes enlaces no solicitados a miembros.\n" +
+            "**3️⃣ No pedir seguidores, suscriptores o donaciones.**"
         ),
 
     moderation: new EmbedBuilder()
         .setColor("#228B22")
         .setTitle("⚖️ Moderation Rules")
         .setDescription(
-            "**1️⃣ Respect moderators and their decisions.**\n" +
-            "**2️⃣ Do not backseat moderate:** Let staff handle issues.\n" +
-            "**3️⃣ If you have concerns, message staff privately.**"
+            "**1️⃣ Respeta a los moderadores y sus decisiones.**\n" +
+            "**2️⃣ No moderes por tu cuenta:** Deja que el staff se encargue.\n" +
+            "**3️⃣ Si tienes preocupaciones, contacta al staff por privado.**"
         )
 };
 
