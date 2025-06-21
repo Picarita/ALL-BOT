@@ -6,13 +6,13 @@ module.exports = function createWelcomeDMEmbed(member) {
     const avatar = member.user.displayAvatarURL({ dynamic: true });
 
     return new EmbedBuilder()
-        .setTitle(`👋 Welcome to ${serverName}!`)
-        .setDescription(`Hey ${username}, we're thrilled to have you join us!`)
+        .setTitle(`👋 Bienvenido(a) a ${serverName}!`)
+        .setDescription(`Oye ${username}, estamos encantados de que te unas a nosotros.!`)
         .setColor('#00e5ff')
         .setThumbnail(avatar)
         .addFields(
             { name: '📅 Joined', value: new Date().toDateString(), inline: true },
-            { name: '📝 Info', value: 'Explore channels, follow rules, and say hi!' }
+            { name: '📝 Info', value: 'Explora los canales, sigue las reglas, y escribe hola!' }
         )
         .setFooter({ text: `${serverName} Community` })
         .setTimestamp();
