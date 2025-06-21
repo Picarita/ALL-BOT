@@ -16,9 +16,9 @@ module.exports = {
         
         if (interaction.isCommand && interaction.isCommand()) {
      
-            const BOT_ICON = "https://cdn.discordapp.com/emojis/1334648756649590805.png";
+            const BOT_ICON = " ";
             const EMBED_COLOR = "#5865F2"; 
-            const FOOTER_TEXT = "All In One | The Discord Operating System • Created by GlaceYT";
+            const FOOTER_TEXT = "Todo En Uno | El Sistema Operativo de Discord";
             const COMMANDS_DIR = path.join(__dirname, '../../commands');
             const EXCESS_COMMANDS_DIR = path.join(__dirname, '../../excesscommands');
 
@@ -132,8 +132,8 @@ module.exports = {
                         `\`💻\` **Comandos con Prefijo:** ${Object.values(config.excessCommands).some(v => v) ? '`Enabled`' : '`Disabled`'}`,
                         '',
                     ].join('\n'),
-                    author: { name: 'TODO EN UN BOT • COMMAND CENTER' },
-                    icon: '📚'
+                    author: { name: '' },
+                    icon: ''
                 });
 
               
@@ -202,7 +202,7 @@ module.exports = {
                     .setAuthor({
                         name: page.author.name,
                         iconURL: BOT_ICON,
-                        url: "https://discord.gg/xQF9f9yUEM"
+                        url: " "
                     })
                     .setImage(helpBanner)
                     .setFooter({ text: `${FOOTER_TEXT} • Page ${currentPage + 1}/${currentSet.length}` })
@@ -378,10 +378,10 @@ module.exports = {
                 .setAuthor({
                     name: "Command Error",
                     iconURL: cmdIcons.dotIcon,
-                    url: "https://discord.gg/xQF9f9yUEM"
+                    url: " "
                 })
                 .setDescription('> ⚠️ Este comando solo se puede usar como comando slash!\n> Por favor, usa /help en su lugar.')
-                .setFooter({ text: 'All In One Bot • Error' })
+                .setFooter({ text: 'Todo En Un Bot • Error' })
                 .setTimestamp();
 
           
