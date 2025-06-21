@@ -1,6 +1,6 @@
 {
     "token": "",
-    "language": "es",
+    "language": "en",
     "prefix": "!",
     "mongodbUri": "",
     "excessCommands": {
