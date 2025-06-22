@@ -16,7 +16,7 @@ module.exports = {
         
         if (interaction.isCommand && interaction.isCommand()) {
      
-            const BOT_ICON = "https://www.logotypes101.com/logos/482/181D284344B0B6EECB43A1DC71E44AE5/tn_jacks.png";
+            const BOT_ICON = "https://ibb.co/DHWWWtDy";
             const EMBED_COLOR = "#5865F2"; 
             const FOOTER_TEXT = "Todo En Uno | El Sistema Operativo de Discord";
             const COMMANDS_DIR = path.join(__dirname, '../../commands');
