@@ -157,8 +157,7 @@ module.exports = {
 
         } else if (subcommand === 'weeklyxp') {
             const userData = await getUserData(interaction.user.id);
-            if (!userData) return interaction.editReply('❌ No se pudo obtener la información de XP.
-');
+            if (!userData) return interaction.editReply('❌ No se pudo obtener la información de XP.');
 
             return interaction.editReply(`📅 **${interaction.user.username}** ganó **${userData.weeklyXp} XP** esta semana.`);
 
