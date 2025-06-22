@@ -53,23 +53,23 @@ module.exports = {
         .addSubcommand(subcommand =>
             subcommand
                 .setName('leaderboard')
-                .setDescription('Displays the XP leaderboard.'))
+                .setDescription('Muestra la tabla de clasificación de XP.'))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('rank')
-                .setDescription('Show your rank or another user\'s rank.')
+                .setDescription('Muestra tu rango o el de otro usuario.')
                 .addUserOption(option =>
                     option.setName('user')
-                        .setDescription('The user to check the rank for.')
+                        .setDescription('El usuario para consultar el rango.')
                         .setRequired(false)))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('weeklyxp')
-                .setDescription('Shows how much XP you earned this week.'))
+                .setDescription('Muestra cuánta XP has ganado esta semana.'))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('xpforlevel')
-                .setDescription('Shows how much XP is needed for the next level.')),
+                .setDescription('Muestra cuánta XP se necesita para el siguiente nivel.')),
 
     async execute(interaction) {
         if (interaction.isCommand && interaction.isCommand()) {
@@ -81,24 +81,24 @@ module.exports = {
 
         if (subcommand === 'givexp') {
             if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
-                return interaction.editReply({ content: '❌ You do not have permission to use this command.', flags: 64 });
+                return interaction.editReply({ content: '❌ No tienes permiso para usar este comando.', flags: 64 });
             }
-            if (amount <= 0) return interaction.editReply({ content: '❌ XP amount must be greater than 0.', flags: 64 });
+            if (amount <= 0) return interaction.editReply({ content: '❌ La cantidad de XP debe ser mayor que 0.', flags: 64 });
 
             await updateXp(user.id, amount);
-            return interaction.editReply(`✅ Gave **${amount} XP** to **${user.username}**.`);
+            return interaction.editReply(`✅ Da **${amount} XP** a **${user.username}**.`);
 
         } else if (subcommand === 'removexp') {
             if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
-                return interaction.editReply({ content: '❌ You do not have permission to use this command.', flags: 64 });
+                return interaction.editReply({ content: '❌ No tienes permiso para usar este comando.', flags: 64 });
             }
-            if (amount <= 0) return interaction.editReply({ content: '❌ XP amount must be greater than 0.', flags: 64 });
+            if (amount <= 0) return interaction.editReply({ content: '❌ La cantidad de XP debe ser mayor que 0.', flags: 64 });
 
             const userData = await getUserData(user.id);
-            if (!userData) return interaction.editReply({ content: '❌ User not found in the database.', flags: 64 });
+            if (!userData) return interaction.editReply({ content: '❌ El usuario no fue encontrado en la base de datos.', flags: 64 });
 
             await updateXp(user.id, -amount);
-            return interaction.editReply(`✅ Removed **${amount} XP** from **${user.username}**.`);
+            return interaction.editReply(`✅ Se removio **${amount} XP** de **${user.username}**.`);
 
         }else if (subcommand === 'leaderboard') {
             // Fetch the top 10 leaderboard data
@@ -114,8 +114,8 @@ module.exports = {
             if (!leaderboardData.length) {
                 const noDataEmbed = new EmbedBuilder()
                     .setColor('#FF0000')
-                    .setTitle('❌ No Leaderboard Data')
-                    .setDescription('There is no leaderboard data available for this server.')
+                    .setTitle('❌ No hay datos para la tabla de clasificación')
+                    .setDescription('No hay datos de tabla de clasificación disponibles para el servidor.')
                     .setTimestamp();
         
                 const reply = await interaction.editReply({ embeds: [noDataEmbed] });
@@ -132,24 +132,24 @@ module.exports = {
             // Create and send the leaderboard embed
             const embed = new EmbedBuilder()
                 .setColor('#FFD700')
-                .setTitle('🏆 XP Leaderboard')
+                .setTitle('🏆 Tabla de XP')
                 .setDescription(leaderboardEntries.join('\n'))
                 .setTimestamp();
         
             await interaction.editReply({ embeds: [embed] });
         } else if (subcommand === 'rank') {
             const userData = await getUserData(user.id);
-            if (!userData) return interaction.editReply(`❌ **${user.username}** has no rank data.`);
+            if (!userData) return interaction.editReply(`❌ **${user.username}** No tiene datos de rango.`);
 
             const requiredXp = Math.ceil((userData.level + 1) ** 2 * 100);
             const embed = new EmbedBuilder()
                 .setColor('#1E90FF')
                 .setAuthor({ name: `${user.username}'s Rank`, iconURL: user.displayAvatarURL() })
-                .setDescription('🏆 **Rank & XP Details**')
+                .setDescription('🏆 **Detalles de rango y XP**')
                 .addFields(
                     { name: '📊 Level', value: `**${userData.level}**`, inline: true },
                     { name: '💫 XP', value: `**${userData.xp} / ${requiredXp}**`, inline: true },
-                    { name: '✨ XP Needed', value: `**${requiredXp - userData.xp} XP**`, inline: false }
+                    { name: '✨ XP Necesaria', value: `**${requiredXp - userData.xp} XP**`, inline: false }
                 )
                 .setTimestamp();
 
@@ -157,29 +157,30 @@ module.exports = {
 
         } else if (subcommand === 'weeklyxp') {
             const userData = await getUserData(interaction.user.id);
-            if (!userData) return interaction.editReply('❌ Could not retrieve XP data.');
+            if (!userData) return interaction.editReply('❌ No se pudo obtener la información de XP.
+');
 
-            return interaction.editReply(`📅 **${interaction.user.username}** earned **${userData.weeklyXp} XP** this week.`);
+            return interaction.editReply(`📅 **${interaction.user.username}** ganó **${userData.weeklyXp} XP** esta semana.`);
 
         } else if (subcommand === 'xpforlevel') {
             const userData = await getUserData(interaction.user.id);
-            if (!userData) return interaction.editReply('❌ Could not retrieve XP data.');
+            if (!userData) return interaction.editReply('❌ No se pudo obtener los datos de XP.');
 
             const xpForNextLevel = (userData.level + 1) ** 2 * 100;
             const xpNeeded = xpForNextLevel - userData.xp;
 
-            return interaction.editReply(`✨ **${interaction.user.username}** needs **${xpNeeded} XP** to reach the next level.`);
+            return interaction.editReply(`✨ **${interaction.user.username}** necesita **${xpNeeded} XP** para conseguir el siguiente nivel.`);
         }
         
     } else {
         const embed = new EmbedBuilder()
             .setColor('#3498db')
             .setAuthor({ 
-                name: "Alert!", 
+                name: "Alerta!", 
                 iconURL: cmdIcons.dotIcon,
-                url: "https://discord.gg/xQF9f9yUEM"
+                url: "https://www.youtube.com/watch?v=mCh6VpxLubc"
             })
-            .setDescription('- This command can only be used through slash commands!\n- Please use `/level`')
+            .setDescription('- ¡Este comando solo se puede usar con comandos slash!\n- Por favor usa `/level`')
             .setTimestamp();
 
         await interaction.reply({ embeds: [embed] });
