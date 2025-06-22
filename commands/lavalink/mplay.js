@@ -6,6 +6,7 @@ const { playlistCollection } = require('../../mongodb');
 const SpotifyWebApi = require('spotify-web-api-node');
 const { getData } = require('spotify-url-info')(fetch);
 const config = require('../../config.js');
+
 const spotifyApi = new SpotifyWebApi({
     clientId: config.spotifyClientId,
     clientSecret: config.spotifyClientSecret,
@@ -13,151 +14,151 @@ const spotifyApi = new SpotifyWebApi({
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('music')
-        .setDescription('Music player commands.')
+        .setDescription('Comandos del reproductor de música.')
         .addSubcommand(subcommand =>
             subcommand
                 .setName('play')
-                .setDescription('Play a song or playlist in the voice channel.')
+                .setDescription('Reproduce una canción o playlist en el canal de voz.')
                 .addStringOption(option =>
                     option.setName('query')
-                        .setDescription('Enter the song name or URL.')
+                        .setDescription('Introduce el nombre de la canción o URL.')
                         .setRequired(true)))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('nowplaying')
-                .setDescription('Get information about the currently playing song.'))
+                .setDescription('Obtén información sobre la canción que se está reproduciendo.'))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('loop')
-                .setDescription('Toggle looping mode for the current track or the entire queue.')
+                .setDescription('Alternar modo de repetición para la pista actual o la cola.')
                 .addStringOption(option =>
                     option.setName('mode')
-                        .setDescription('Select loop mode: none, track, or queue.')
+                        .setDescription('Selecciona modo de repetición: none, track o queue.')
                         .setRequired(true)
                         .addChoices(
-                            { name: 'Disable Loop', value: 'none' },
-                            { name: 'Track Loop', value: 'track' },
-                            { name: 'Queue Loop', value: 'queue' }
+                            { name: 'Desactivar repetición', value: 'none' },
+                            { name: 'Repetir pista', value: 'track' },
+                            { name: 'Repetir cola', value: 'queue' }
                         )))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('pause')
-                .setDescription('Pause the currently playing song.'))
+                .setDescription('Pausar la canción que se está reproduciendo.'))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('resume')
-                .setDescription('Resume the paused song.'))
+                .setDescription('Reanudar la canción pausada.'))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('shuffle')
-                .setDescription('Shuffle the queue.'))
+                .setDescription('Mezclar la cola.'))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('skip')
-                .setDescription('Skip the current song.'))
+                .setDescription('Saltar la canción actual.'))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('stop')
-                .setDescription('Stop the music and clear the queue.'))
+                .setDescription('Detener la música y limpiar la cola.'))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('queue')
-                .setDescription('View the current music queue.'))
+                .setDescription('Ver la cola de música actual.'))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('remove')
-                .setDescription('Remove a specific song from the queue.')
+                .setDescription('Eliminar una canción específica de la cola.')
                 .addIntegerOption(option =>
                     option.setName('track')
-                        .setDescription('Track number to remove.')
+                        .setDescription('Número de pista a eliminar.')
                         .setRequired(true)))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('createplaylist')
-                .setDescription('Create a new playlist.')
+                .setDescription('Crear una nueva playlist.')
                 .addStringOption(option =>
                     option.setName('name')
-                        .setDescription('Playlist name.')
+                        .setDescription('Nombre de la playlist.')
                         .setRequired(true))
                 .addStringOption(option =>
                     option.setName('visibility')
-                        .setDescription('Choose if the playlist is public or private.')
+                        .setDescription('Elige si la playlist es pública o privada.')
                         .setRequired(true)
                         .addChoices(
-                            { name: 'Public', value: 'public' },
-                            { name: 'Private', value: 'private' }
+                            { name: 'Pública', value: 'public' },
+                            { name: 'Privada', value: 'private' }
                         )))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('playplaylist')
-                .setDescription('Play a saved playlist.')
+                .setDescription('Reproducir una playlist guardada.')
                 .addStringOption(option =>
                     option.setName('name')
-                        .setDescription('Playlist name.')
+                        .setDescription('Nombre de la playlist.')
                         .setRequired(true)))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('viewmyplaylists')
-                .setDescription('View your saved playlists.'))
+                .setDescription('Ver tus playlists guardadas.'))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('viewmyplaylistsongs')
-                .setDescription('View songs in your playlist.')
+                .setDescription('Ver canciones en tu playlist.')
                 .addStringOption(option =>
                     option.setName('name')
-                        .setDescription('Playlist name.')
+                        .setDescription('Nombre de la playlist.')
                         .setRequired(true)))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('allplaylists')
-                .setDescription('View all public playlists.'))
+                .setDescription('Ver todas las playlists públicas.'))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('deletesong')
-                .setDescription('Remove a song from your playlist.')
+                .setDescription('Eliminar una canción de tu playlist.')
                 .addStringOption(option =>
                     option.setName('playlist')
-                        .setDescription('Playlist name.')
+                        .setDescription('Nombre de la playlist.')
                         .setRequired(true))
                 .addIntegerOption(option =>
                     option.setName('index')
-                        .setDescription('Song index to remove.')
+                        .setDescription('Índice de la canción a eliminar.')
                         .setRequired(true)))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('deleteplaylist')
-                .setDescription('Delete your playlist.')
+                .setDescription('Eliminar tu playlist.')
                 .addStringOption(option =>
                     option.setName('name')
-                        .setDescription('Playlist name.')
+                        .setDescription('Nombre de la playlist.')
                         .setRequired(true)))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('autoplay')
-                .setDescription('Enable or disable autoplay.')
+                .setDescription('Activar o desactivar autoplay.')
                 .addBooleanOption(option =>
                     option.setName('enabled')
-                        .setDescription('Enable or disable autoplay.')
+                        .setDescription('Activar o desactivar autoplay.')
                         .setRequired(true)))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('addsong')
-                .setDescription('Add a song to a playlist.')
+                .setDescription('Agregar una canción a una playlist.')
                 .addStringOption(option =>
                     option.setName('playlist')
-                        .setDescription('The playlist name.')
+                        .setDescription('Nombre de la playlist.')
                         .setRequired(true))
                 .addStringOption(option =>
                     option.setName('song')
-                        .setDescription('Enter song name or URL.')
+                        .setDescription('Introduce el nombre de la canción o URL.')
                         .setRequired(true)))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('volume')
-                .setDescription('Set the music volume (0-100).')
+                .setDescription('Configurar volumen de la música (0-100).')
                 .addIntegerOption(option =>
                     option.setName('level')
-                        .setDescription('Volume level (0-100).')
+                        .setDescription('Nivel de volumen (0-100).')
                         .setRequired(true))),
 
     async execute(interaction) {
@@ -170,12 +171,12 @@ module.exports = {
             const { channel } = member.voice;
             const client = interaction.client;
 
-            // Helper function for checking voice channel
+            // Función para verificar canal de voz
             const checkVoiceChannel = async () => {
                 if (!channel) {
                     const errorEmbed = new EmbedBuilder()
                         .setColor('#FF0000')
-                        .setDescription('❌ You must be in a voice channel to use this command.');
+                        .setDescription('❌ Debes estar en un canal de voz para usar este comando.');
                     
                     const reply = await interaction.editReply({ embeds: [errorEmbed] });
                     setTimeout(() => reply.delete().catch(() => {}), 3000);
@@ -187,19 +188,19 @@ module.exports = {
                 if (botVoiceChannel && botVoiceChannel.id !== channel.id) {
                     const errorEmbed = new EmbedBuilder()
                         .setColor('#FF0000')
-                        .setDescription('❌ I\'m already playing music in another voice channel.');
+                        .setDescription('❌ Ya estoy reproduciendo música en otro canal de voz.');
                     
                     const reply = await interaction.editReply({ embeds: [errorEmbed] });
                     setTimeout(() => reply.delete().catch(() => {}), 3000);
                     return false;
                 }
                 
-                // Check permissions
+                // Verificar permisos
                 const permissions = channel.permissionsFor(client.user);
                 if (!permissions.has(PermissionFlagsBits.Connect) || !permissions.has(PermissionFlagsBits.Speak)) {
                     const errorEmbed = new EmbedBuilder()
                         .setColor('#FF0000')
-                        .setDescription('❌ I need permission to connect & speak in the voice channel.');
+                        .setDescription('❌ Necesito permisos para conectar y hablar en el canal de voz.');
                     
                     const reply = await interaction.editReply({ embeds: [errorEmbed] });
                     setTimeout(() => reply.delete().catch(() => {}), 3000);
@@ -209,7 +210,7 @@ module.exports = {
                 return true;
             };
 
-            // Helper function to get or create player
+            // Función para obtener o crear el reproductor
             const getOrCreatePlayer = async () => {
                 let player = client.riffy.players.get(guildId);
                 
@@ -222,8 +223,8 @@ module.exports = {
                             deaf: true
                         });
                     } catch (error) {
-                        console.error('Error creating player:', error);
-                        await interaction.editReply({ content: '❌ Failed to connect to the voice channel.' });
+                        console.error('Error al crear reproductor:', error);
+                        await interaction.editReply({ content: '❌ Falló la conexión al canal de voz.' });
                         return null;
                     }
                 }
@@ -231,15 +232,15 @@ module.exports = {
                 return player;
             };
 
-            // Helper function to check if player exists
+            // Función para verificar si el reproductor existe
             const checkPlayerExists = async () => {
                 const player = client.riffy.players.get(guildId);
                 
                 if (!player) {
                     const noPlayerEmbed = new EmbedBuilder()
                         .setColor('#FF0000')
-                        .setTitle('❌ No Active Player')
-                        .setDescription('There is no active music player in this server.\nUse `/music play` to start playing music.')
+                        .setTitle('❌ No hay reproductor activo')
+                        .setDescription('No hay un reproductor activo en este servidor.\nUsa `/music play` para empezar a reproducir música.')
                         .setFooter({ text: 'All In One Music', iconURL: musicIcons.alertIcon });
                 
                     const reply = await interaction.editReply({ embeds: [noPlayerEmbed] });
@@ -251,7 +252,7 @@ module.exports = {
                 return player;
             };
 
-            // Handle different subcommands
+            // Manejo de subcomandos
             switch (subcommand) {
                 case 'play': {
                     try {
@@ -262,7 +263,7 @@ module.exports = {
                         let player = await getOrCreatePlayer();
                         if (!player) return;
                 
-                        // Handle Spotify links
+                        // Manejar enlaces de Spotify
                         if (query.includes('spotify.com')) {
                             try {
                                 const spotifyData = await getData(query);
@@ -287,12 +288,12 @@ module.exports = {
                                         );
                                         trackList.push(...fetched);
                                         offset += limit;
-                                    } while (fetched.length === limit); // Stop when we get less than the limit
+                                    } while (fetched.length === limit);
                                 }
                 
                                 if (trackList.length === 0) {
                                     await interaction.editReply({ 
-                                        content: "❌ No tracks found in this Spotify link." 
+                                        content: "❌ No se encontraron pistas en este enlace de Spotify." 
                                     });
                                     return;
                                 }
@@ -314,20 +315,20 @@ module.exports = {
                         
                                 const embed = new EmbedBuilder()
                                     .setColor('#1DB954')
-                                    .setTitle(`🎵 Spotify ${spotifyData.type === 'track' ? 'Track' : 'Playlist'} Queued`)
-                                    .setDescription(`✅ Added ${added} track(s) from Spotify to the queue.`)
-                                    .setFooter({ text: `Requested by: ${user.username}`, iconURL: user.displayAvatarURL() });
+                                    .setTitle(`🎵 Pista o Playlist de Spotify en Cola`)
+                                    .setDescription(`✅ Añadidas ${added} pista(s) desde Spotify a la cola.`)
+                                    .setFooter({ text: `Solicitado por: ${user.username}`, iconURL: user.displayAvatarURL() });
                         
                                 const reply = await interaction.editReply({ embeds: [embed] });
                                 setTimeout(() => reply.delete().catch(() => {}), 3000);
                         
                                 if (!player.playing && !player.paused) player.play();
                             } catch (spotifyError) {
-                                console.error('Spotify error:', spotifyError);
+                                console.error('Error de Spotify:', spotifyError);
                                 const errorEmbed = new EmbedBuilder()
                                     .setColor('#FF0000')
-                                    .setTitle('❌ Spotify Error')
-                                    .setDescription('Failed to process Spotify link. Please check your Spotify credentials or try another link.')
+                                    .setTitle('❌ Error de Spotify')
+                                    .setDescription('No se pudo procesar el enlace de Spotify. Por favor, verifica tus credenciales de Spotify o prueba otro enlace.')
                                     .setFooter({ text: 'All In One Music', iconURL: musicIcons.alertIcon });
                                 
                                 const reply = await interaction.editReply({ embeds: [errorEmbed] });
@@ -335,7 +336,7 @@ module.exports = {
                                 return;
                             }
                         }  
-                        // Handle YouTube links
+                        // Manejar enlaces de YouTube
                         else if (query.includes('youtube.com') || query.includes('youtu.be')) {
                             let isPlaylist = query.includes('list=');
                             let isMix = query.includes('list=RD');
@@ -343,8 +344,8 @@ module.exports = {
                             if (isMix) {
                                 const mixEmbed = new EmbedBuilder()
                                     .setColor('#FF0000')
-                                    .setTitle('❌ Unsupported Content')
-                                    .setDescription('YouTube mixes are currently not supported.\nPlease use a different track or playlist.')
+                                    .setTitle('❌ Contenido no compatible')
+                                    .setDescription('Actualmente no se admiten los mixes de YouTube.\nPor favor usa otra pista o playlist.')
                                     .setFooter({ text: 'All In One Music', iconURL: musicIcons.alertIcon });
                             
                                 const reply = await interaction.editReply({ embeds: [mixEmbed] });
@@ -356,8 +357,8 @@ module.exports = {
                             if (!resolve || !resolve.tracks || resolve.tracks.length === 0) {
                                 const noResultsEmbed = new EmbedBuilder()
                                     .setColor('#FF0000')
-                                    .setTitle('❌ No Results Found')
-                                    .setDescription('We couldn\'t find any tracks matching your query.\nTry modifying your search.')
+                                    .setTitle('❌ No se encontraron resultados')
+                                    .setDescription('No pudimos encontrar ninguna pista que coincida con tu búsqueda.\nPrueba modificando tu búsqueda.')
                                     .setFooter({ text: 'All In One Music', iconURL: musicIcons.alertIcon });
                             
                                 const reply = await interaction.editReply({ embeds: [noResultsEmbed] });
@@ -377,9 +378,9 @@ module.exports = {
                     
                                 const embed = new EmbedBuilder()
                                     .setColor('#DC92FF')
-                                    .setAuthor({ name: 'Playlist Added', iconURL: musicIcons.correctIcon })
-                                    .setFooter({ text: `Requested by: ${user.username}`, iconURL: user.displayAvatarURL() })
-                                    .setDescription(`✅ Added  **PlayList** tracks to the queue.`);
+                                    .setAuthor({ name: 'Playlist Añadida', iconURL: musicIcons.correctIcon })
+                                    .setFooter({ text: `Solicitado por: ${user.username}`, iconURL: user.displayAvatarURL() })
+                                    .setDescription(`✅ Añadida **Playlist** a la cola.`);
                     
                                 const reply = await interaction.editReply({ embeds: [embed] });
                                 setTimeout(() => reply.delete().catch(() => {}), 3000);
@@ -394,9 +395,9 @@ module.exports = {
                     
                                 const embed = new EmbedBuilder()
                                     .setColor('#DC92FF')
-                                    .setAuthor({ name: 'Track Added', iconURL: musicIcons.correctIcon })
-                                    .setFooter({ text: `Requested by: ${user.username}`, iconURL: user.displayAvatarURL() })
-                                    .setDescription(`🎵 Added **${track.info.title}** to the queue.`);
+                                    .setAuthor({ name: 'Pista Añadida', iconURL: musicIcons.correctIcon })
+                                    .setFooter({ text: `Solicitado por: ${user.username}`, iconURL: user.displayAvatarURL() })
+                                    .setDescription(`🎵 Añadida **${track.info.title}** a la cola.`);
                     
                                 const reply = await interaction.editReply({ embeds: [embed] });
                                 setTimeout(() => reply.delete().catch(() => {}), 3000);
@@ -404,15 +405,15 @@ module.exports = {
                     
                             if (!player.playing && !player.paused) player.play();
                         }
-                        // Handle regular search queries
+                        // Manejar búsquedas regulares
                         else {
                             const resolve = await client.riffy.resolve({ query, requester: user });
                             
                             if (!resolve || !resolve.tracks || resolve.tracks.length === 0) {
                                 const noResultsEmbed = new EmbedBuilder()
                                     .setColor('#FF0000')
-                                    .setTitle('❌ No Results Found')
-                                    .setDescription('We couldn\'t find any tracks matching your query.\nTry modifying your search.')
+                                    .setTitle('❌ No se encontraron resultados')
+                                    .setDescription('No pudimos encontrar ninguna pista que coincida con tu búsqueda.\nPrueba modificando tu búsqueda.')
                                     .setFooter({ text: 'All In One Music', iconURL: musicIcons.alertIcon });
                             
                                 const reply = await interaction.editReply({ embeds: [noResultsEmbed] });
@@ -430,9 +431,9 @@ module.exports = {
                 
                             const embed = new EmbedBuilder()
                                 .setColor('#DC92FF')
-                                .setAuthor({ name: 'Track Added', iconURL: musicIcons.correctIcon })
-                                .setFooter({ text: `Requested by: ${user.username}`, iconURL: user.displayAvatarURL() })
-                                .setDescription(`🎵 Added **${track.info.title}** to the queue.`);
+                                .setAuthor({ name: 'Pista Añadida', iconURL: musicIcons.correctIcon })
+                                .setFooter({ text: `Solicitado por: ${user.username}`, iconURL: user.displayAvatarURL() })
+                                .setDescription(`🎵 Añadida **${track.info.title}** a la cola.`);
                 
                             const reply = await interaction.editReply({ embeds: [embed] });
                             setTimeout(() => reply.delete().catch(() => {}), 3000);
@@ -440,12 +441,12 @@ module.exports = {
                             if (!player.playing && !player.paused) player.play();
                         }
                     } catch (error) {
-                        console.error('Error resolving query:', error);
+                        console.error('Error al resolver consulta:', error);
                     
                         const errorEmbed = new EmbedBuilder()
                             .setColor('#FF0000')
-                            .setTitle('❌ Error Occurred')
-                            .setDescription('Something went wrong while processing your request.\n\n**Tips:**\n- Try changing the Lavalink in config.\n- Verify the track/playlist URL.')
+                            .setTitle('❌ Ocurrió un error')
+                            .setDescription('Algo salió mal al procesar tu solicitud.\n\n**Consejos:**\n- Prueba cambiar el Lavalink en la configuración.\n- Verifica la URL de la pista/playlist.')
                             .setFooter({ text: 'All In One Music', iconURL: musicIcons.alertIcon })
                             .setTimestamp();
                     
@@ -465,138 +466,141 @@ module.exports = {
                     
                     const currentTrack = player.current;
                     if (!currentTrack) {
-                        const noTrackEmbed = new EmbedBuilder()
-                            .setColor('#FF0000')
-                            .setTitle('❌ No Track Playing')
-                            .setDescription('There is no track currently playing.\nUse `/music play` to queue a song.')
-                            .setFooter({ text: 'All In One Music', iconURL: musicIcons.alertIcon });
-                    
-                        const reply = await interaction.editReply({ embeds: [noTrackEmbed] });
-                        setTimeout(() => reply.delete().catch(() => {}), 3000);
+                        await interaction.editReply({ content: '❌ No hay ninguna canción reproduciéndose ahora mismo.' });
                         return;
                     }
                     
+                    const progress = player.createProgressBar();
+                    const embed = new EmbedBuilder()
+                        .setColor('#1DB954')
+                        .setAuthor({ name: 'Reproduciendo Ahora', iconURL: musicIcons.musicNote })
+                        .setDescription(`🎵 **${currentTrack.info.title}**\n\n${progress}\n\nSolicitado por: <@${currentTrack.requester.id}>`)
+                        .setThumbnail(currentTrack.info.image)
+                        .setFooter({ text: 'All In One Music', iconURL: musicIcons.correctIcon });
                     
-                    const npEmbed = new EmbedBuilder()
-                        .setColor('#DC92FF')
-                        .setTitle('🎵 Now Playing')
-                        .setDescription(`**[${currentTrack.info.title}](${currentTrack.info.uri})**`);
-                    
-                    if (currentTrack.info.artwork) {
-                        npEmbed.setThumbnail(currentTrack.info.artwork);
-                    }
-                    
-                    const reply = await interaction.editReply({ embeds: [npEmbed] });
-                    setTimeout(() => reply.delete().catch(() => {}), 3000);
+                    await interaction.editReply({ embeds: [embed] });
                     break;
                 }
-
-                case 'pause': {
-                    const player = await checkPlayerExists();
-                    if (!player) return;
-                    
-                    player.pause(true);
-                    const reply = await interaction.editReply({ content: '⏸️ The song has been paused.' });
-                    setTimeout(() => reply.delete().catch(() => {}), 3000);
-                    break;
-                }
-
-                case 'resume': {
-                    const player = await checkPlayerExists();
-                    if (!player) return;
-                    
-                    player.pause(false);
-                    const reply = await interaction.editReply({ content: '▶️ The song has been resumed.' });
-                    setTimeout(() => reply.delete().catch(() => {}), 3000);
-                    break;
-                }
-
-                case 'shuffle': {
-                    const player = await checkPlayerExists();
-                    if (!player) return;
-                    
-                    player.queue.shuffle();
-                    const reply = await interaction.editReply({ content: '🔀 The queue has been shuffled.' });
-                    setTimeout(() => reply.delete().catch(() => {}), 3000);
-                    break;
-                }
-
-                case 'skip': {
-                    const player = await checkPlayerExists();
-                    if (!player) return;
-                    
-                    player.stop();
-                    const reply = await interaction.editReply({ content: '⏭️ The song has been skipped.' });
-                    setTimeout(() => reply.delete().catch(() => {}), 3000);
-                    break;
-                }
-
-                case 'stop': {
-                    const player = await checkPlayerExists();
-                    if (!player) return;
-                    
-                    player.destroy();
-                    const reply = await interaction.editReply({ content: '⏹️ The music has been stopped, and the queue has been cleared.' });
-                    setTimeout(() => reply.delete().catch(() => {}), 3000);
-                    break;
-                }
-
-                case 'queue': {
-                    const player = await checkPlayerExists();
-                    if (!player) return;
-                    
-                    const queue = player.queue;
-                    if (!queue || queue.length === 0) {
-                        await interaction.editReply({ content: '❌ The queue is empty.' });
-                        return;
-                    }
-                    
-                    // Format queue with track numbers and song titles
-                    const formattedQueue = queue.map((track, i) => `${i + 1}. **${track.info.title}**`).join('\n');
-                    
-                    const queueEmbed = new EmbedBuilder()
-                        .setColor('#DC92FF')
-                        .setTitle('🎶 Current Queue')
-                        .setDescription(formattedQueue);
-                    
-                    await interaction.editReply({ embeds: [queueEmbed] });
-                    break;
-                }
-
+                
                 case 'loop': {
                     const player = await checkPlayerExists();
                     if (!player) return;
                     
                     const mode = interaction.options.getString('mode');
+                    if (!['none', 'track', 'queue'].includes(mode)) {
+                        await interaction.editReply({ content: '❌ El modo debe ser uno de: none, track, queue.' });
+                        return;
+                    }
                     
-                    try {
-                        player.setLoop(mode);
-                        const reply = await interaction.editReply({ content: `🔄 Loop mode set to **${mode}**.` });
-                        setTimeout(() => reply.delete().catch(() => {}), 3000);
-                    } catch (error) {
-                        console.error('Error setting loop mode:', error);
-                        await interaction.editReply({ content: '❌ Failed to set loop mode.' });
+                    if (mode === 'none') {
+                        player.setRepeatMode(0);
+                        await interaction.editReply({ content: '⏹️ Repetición desactivada.' });
+                    } else if (mode === 'track') {
+                        player.setRepeatMode(1);
+                        await interaction.editReply({ content: '🔂 Repetición de pista activada.' });
+                    } else if (mode === 'queue') {
+                        player.setRepeatMode(2);
+                        await interaction.editReply({ content: '🔁 Repetición de cola activada.' });
                     }
                     break;
                 }
-
+                
+                case 'pause': {
+                    const player = await checkPlayerExists();
+                    if (!player) return;
+                    
+                    if (player.paused) {
+                        await interaction.editReply({ content: '❌ La música ya está pausada.' });
+                        return;
+                    }
+                    
+                    player.pause(true);
+                    await interaction.editReply({ content: '⏸️ Música pausada.' });
+                    break;
+                }
+                
+                case 'resume': {
+                    const player = await checkPlayerExists();
+                    if (!player) return;
+                    
+                    if (!player.paused) {
+                        await interaction.editReply({ content: '❌ La música ya está reproduciéndose.' });
+                        return;
+                    }
+                    
+                    player.pause(false);
+                    await interaction.editReply({ content: '▶️ Música reanudada.' });
+                    break;
+                }
+                
+                case 'shuffle': {
+                    const player = await checkPlayerExists();
+                    if (!player) return;
+                    
+                    player.queue.shuffle();
+                    await interaction.editReply({ content: '🔀 Cola mezclada.' });
+                    break;
+                }
+                
+                case 'skip': {
+                    const player = await checkPlayerExists();
+                    if (!player) return;
+                    
+                    if (!player.queue.current) {
+                        await interaction.editReply({ content: '❌ No hay canción para saltar.' });
+                        return;
+                    }
+                    
+                    player.queue.skip();
+                    await interaction.editReply({ content: '⏭️ Canción saltada.' });
+                    break;
+                }
+                
+                case 'stop': {
+                    const player = await checkPlayerExists();
+                    if (!player) return;
+                    
+                    player.queue.clear();
+                    player.stop();
+                    await interaction.editReply({ content: '⏹️ Reproductor detenido y cola limpiada.' });
+                    break;
+                }
+                
+                case 'queue': {
+                    const player = await checkPlayerExists();
+                    if (!player) return;
+                    
+                    const queue = player.queue;
+                    if (queue.size === 0) {
+                        await interaction.editReply({ content: '❌ La cola está vacía.' });
+                        return;
+                    }
+                    
+                    const trackList = queue.map((track, i) => `**${i + 1}.** ${track.info.title} - solicitado por <@${track.requester.id}>`).slice(0, 10).join('\n');
+                    
+                    const embed = new EmbedBuilder()
+                        .setColor('#1DB954')
+                        .setTitle('🎶 Cola de Reproducción')
+                        .setDescription(trackList)
+                        .setFooter({ text: queue.size > 10 ? `+ ${queue.size - 10} más pistas...` : 'Fin de la cola' });
+                    
+                    await interaction.editReply({ embeds: [embed] });
+                    break;
+                }
+                
                 case 'remove': {
                     const player = await checkPlayerExists();
                     if (!player) return;
                     
-                    const trackNumber = interaction.options.getInteger('track');
-                    if (trackNumber < 1 || trackNumber > player.queue.length) {
-                        await interaction.editReply({ content: '❌ Invalid track number.' });
+                    const trackNumber = interaction.options.getInteger('track') - 1;
+                    
+                    if (trackNumber < 0 || trackNumber >= player.queue.size) {
+                        await interaction.editReply({ content: '❌ Número de pista inválido.' });
                         return;
                     }
                     
-                    const removedTrack = player.queue[trackNumber - 1];
-                    player.queue.remove(trackNumber - 1);
-                    
-                    const reply = await interaction.editReply({ 
-                        content: `🗑️ Removed track #${trackNumber}: **${removedTrack.info.title}** from the queue.` 
-                    });
-                    setTimeout(() => reply.delete().catch(() => {}), 3000);
+                    const removedTrack = player.queue.remove(trackNumber);
+                    await interaction.editReply({ content: `🗑️ Eliminada **${removedTrack.info.title}** de la cola.` });
                     break;
                 }
 
@@ -606,12 +610,12 @@ module.exports = {
                     
                     const volume = interaction.options.getInteger('level');
                     if (volume < 0 || volume > 100) {
-                        await interaction.editReply({ content: '❌ Volume must be between 0 and 100.' });
+                        await interaction.editReply({ content: '❌ El volumen debe estar entre 0 y 100.' });
                         return;
                     }
                     
                     player.setVolume(volume);
-                    const reply = await interaction.editReply({ content: `🔊 Volume set to **${volume}%**.` });
+                    const reply = await interaction.editReply({ content: `🔊 Volumen ajustado a **${volume}%**.` });
                     setTimeout(() => reply.delete().catch(() => {}), 3000);
                     break;
                 }
@@ -623,7 +627,7 @@ module.exports = {
 
                         const existingPlaylist = await playlistCollection.findOne({ name, owner: userId });
                         if (existingPlaylist) {
-                            await interaction.editReply({ content: `❌ A playlist with this name already exists.` });
+                            await interaction.editReply({ content: `❌ Ya existe una playlist con ese nombre.` });
                             return;
                         }
 
@@ -634,11 +638,11 @@ module.exports = {
                             songs: []
                         });
 
-                        const reply = await interaction.editReply({ content: `✅ Playlist **${name}** created as **${visibility}**.` });
+                        const reply = await interaction.editReply({ content: `✅ Playlist **${name}** creada como **${visibility}**.` });
                         setTimeout(() => reply.delete().catch(() => {}), 3000);
                     } catch (error) {
-                        console.error('Error creating playlist:', error);
-                        await interaction.editReply({ content: '❌ Failed to create playlist. Please try again later.' });
+                        console.error('Error al crear playlist:', error);
+                        await interaction.editReply({ content: '❌ No se pudo crear la playlist. Intenta más tarde.' });
                     }
                     break;
                 }
@@ -651,24 +655,24 @@ module.exports = {
                         const playlist = await playlistCollection.findOne({ name });
                     
                         if (!playlist) {
-                            await interaction.editReply({ content: `❌ Playlist **${name}** not found.` });
+                            await interaction.editReply({ content: `❌ Playlist **${name}** no encontrada.` });
                             return;
                         }
                     
                         if (playlist.visibility === 'private' && playlist.owner !== userId) {
-                            await interaction.editReply({ content: `❌ You do not have permission to play this private playlist.` });
+                            await interaction.editReply({ content: `❌ No tienes permiso para reproducir esta playlist privada.` });
                             return;
                         }
                     
                         if (playlist.songs.length === 0) {
-                            await interaction.editReply({ content: `❌ This playlist is empty.` });
+                            await interaction.editReply({ content: `❌ Esta playlist está vacía.` });
                             return;
                         }
                     
                         let player = await getOrCreatePlayer();
                         if (!player) return;
                     
-                        // Resolve and add all songs in the playlist
+                        // Resolver y agregar todas las canciones de la playlist
                         let addedTracks = 0;
                         for (const song of playlist.songs) {
                             try {
@@ -681,24 +685,24 @@ module.exports = {
                                     addedTracks++;
                                 }
                             } catch (error) {
-                                console.warn(`Failed to resolve track: ${song}`, error);
+                                console.warn(`No se pudo resolver la pista: ${song}`, error);
                             }
                         }
                     
                         if (addedTracks === 0) {
-                            await interaction.editReply({ content: `❌ Could not resolve any valid tracks from playlist **${name}**.` });
+                            await interaction.editReply({ content: `❌ No se pudieron resolver pistas válidas de la playlist **${name}**.` });
                             return;
                         }
                     
-                        const reply = await interaction.editReply({ content: `🎵 Now playing playlist **${name}** with **${addedTracks}** songs!` });
+                        const reply = await interaction.editReply({ content: `🎵 Reproduciendo playlist **${name}** con **${addedTracks}** canciones!` });
                         setTimeout(() => reply.delete().catch(() => {}), 3000);
                         
                         if (!player.playing && !player.paused) {
                             player.play();
                         }
                     } catch (error) {
-                        console.error('Error playing playlist:', error);
-                        await interaction.editReply({ content: '❌ Failed to play playlist. Please try again later.' });
+                        console.error('Error al reproducir playlist:', error);
+                        await interaction.editReply({ content: '❌ No se pudo reproducir la playlist. Intenta más tarde.' });
                     }
                     break;
                 }
@@ -707,19 +711,19 @@ module.exports = {
                     try {
                         const playlists = await playlistCollection.find({ owner: userId }).toArray();
                         if (playlists.length === 0) {
-                            await interaction.editReply({ content: `❌ You have no saved playlists.` });
+                            await interaction.editReply({ content: `❌ No tienes playlists guardadas.` });
                             return;
                         }
 
                         const embed = new EmbedBuilder()
                             .setColor('#3498db')
-                            .setTitle('🎶 Your Playlists')
+                            .setTitle('🎶 Tus Playlists')
                             .setDescription(playlists.map(p => `- **${p.name}** (${p.visibility})`).join('\n'));
 
                         await interaction.editReply({ embeds: [embed] });
                     } catch (error) {
-                        console.error('Error viewing playlists:', error);
-                        await interaction.editReply({ content: '❌ Failed to retrieve playlists. Please try again later.' });
+                        console.error('Error al ver playlists:', error);
+                        await interaction.editReply({ content: '❌ No se pudieron obtener las playlists. Intenta más tarde.' });
                     }
                     break;
                 }
@@ -730,17 +734,17 @@ module.exports = {
                         const playlist = await playlistCollection.findOne({ name: playlistName });
             
                         if (!playlist) {
-                            await interaction.editReply({ content: `❌ Playlist **${playlistName}** not found.` });
+                            await interaction.editReply({ content: `❌ Playlist **${playlistName}** no encontrada.` });
                             return;
                         }
             
                         if (playlist.visibility === 'private' && playlist.owner !== userId) {
-                            await interaction.editReply({ content: `❌ You do not have permission to view this private playlist.` });
+                            await interaction.editReply({ content: `❌ No tienes permiso para ver esta playlist privada.` });
                             return;
                         }
             
                         if (playlist.songs.length === 0) {
-                            await interaction.editReply({ content: `❌ This playlist is empty.` });
+                            await interaction.editReply({ content: `❌ Esta playlist está vacía.` });
                             return;
                         }
             
@@ -748,14 +752,14 @@ module.exports = {
             
                         const embed = new EmbedBuilder()
                             .setColor('#3498db')
-                            .setTitle(`🎵 Songs in ${playlistName}`)
+                            .setTitle(`🎵 Canciones en ${playlistName}`)
                             .setDescription(songList)
-                            .setFooter({ text: playlist.songs.length > 10 ? `+ ${playlist.songs.length - 10} more songs...` : "End of playlist" });
+                            .setFooter({ text: playlist.songs.length > 10 ? `+ ${playlist.songs.length - 10} canciones más...` : "Fin de la playlist" });
             
                         await interaction.editReply({ embeds: [embed] });
                     } catch (error) {
-                        console.error('Error viewing playlist songs:', error);
-                        await interaction.editReply({ content: '❌ Failed to retrieve playlist songs. Please try again later.' });
+                        console.error('Error al ver canciones de playlist:', error);
+                        await interaction.editReply({ content: '❌ No se pudieron obtener las canciones. Intenta más tarde.' });
                     }
                     break;
                 }
@@ -764,19 +768,19 @@ module.exports = {
                     try {
                         const playlists = await playlistCollection.find({ visibility: 'public' }).toArray();
                         if (playlists.length === 0) {
-                            await interaction.editReply({ content: `❌ No public playlists available.` });
+                            await interaction.editReply({ content: `❌ No hay playlists públicas disponibles.` });
                             return;
                         }
 
                         const embed = new EmbedBuilder()
                             .setColor('#2ECC71')
-                            .setTitle('🌍 Public Playlists')
-                            .setDescription(playlists.map(p => `- **${p.name}** (Owner: <@${p.owner}>)`).join('\n'));
+                            .setTitle('🌍 Playlists Públicas')
+                            .setDescription(playlists.map(p => `- **${p.name}** (Dueño: <@${p.owner}>)`).join('\n'));
 
                         await interaction.editReply({ embeds: [embed] });
                     } catch (error) {
-                        console.error('Error retrieving public playlists:', error);
-                        await interaction.editReply({ content: '❌ Failed to retrieve public playlists. Please try again later.' });
+                        console.error('Error al obtener playlists públicas:', error);
+                        await interaction.editReply({ content: '❌ No se pudieron obtener las playlists públicas. Intenta más tarde.' });
                     }
                     break;
                 }
@@ -784,28 +788,27 @@ module.exports = {
                 case 'deletesong': {
                     try {
                         const playlistName = interaction.options.getString('playlist');
-                        const songIndex = interaction.options.getInteger('index') - 1; // Convert to 0-based index
+                        const songIndex = interaction.options.getInteger('index') - 1;
                         
                         const playlist = await playlistCollection.findOne({ name: playlistName });
                         
                         if (!playlist) {
-                            await interaction.editReply({ content: `❌ Playlist **${playlistName}** not found.` });
+                            await interaction.editReply({ content: `❌ Playlist **${playlistName}** no encontrada.` });
                             return;
                         }
                         
                         if (playlist.owner !== userId) {
-                            await interaction.editReply({ content: '❌ You can only delete songs from your own playlists.' });
+                            await interaction.editReply({ content: '❌ Solo puedes eliminar canciones de tus propias playlists.' });
                             return;
                         }
                         
                         if (songIndex < 0 || songIndex >= playlist.songs.length) {
-                            await interaction.editReply({ content: '❌ Invalid song index.' });
+                            await interaction.editReply({ content: '❌ Índice de canción inválido.' });
                             return;
                         }
                         
                         const removedSong = playlist.songs[songIndex];
                         
-                        // Remove the song from the playlist
                         playlist.songs.splice(songIndex, 1);
                         
                         await playlistCollection.updateOne(
@@ -813,11 +816,11 @@ module.exports = {
                             { $set: { songs: playlist.songs } }
                         );
                         
-                        const reply = await interaction.editReply({ content: `✅ Removed **${removedSong}** from playlist **${playlistName}**.` });
+                        const reply = await interaction.editReply({ content: `✅ Eliminada **${removedSong}** de la playlist **${playlistName}**.` });
                         setTimeout(() => reply.delete().catch(() => {}), 3000);
                     } catch (error) {
-                        console.error('Error deleting song from playlist:', error);
-                        await interaction.editReply({ content: '❌ Failed to delete song from playlist. Please try again later.' });
+                        console.error('Error al eliminar canción de playlist:', error);
+                        await interaction.editReply({ content: '❌ No se pudo eliminar la canción. Intenta más tarde.' });
                     }
                     break;
                 }
@@ -829,22 +832,22 @@ module.exports = {
                         const playlist = await playlistCollection.findOne({ name: playlistName });
                         
                         if (!playlist) {
-                            await interaction.editReply({ content: `❌ Playlist **${playlistName}** not found.` });
+                            await interaction.editReply({ content: `❌ Playlist **${playlistName}** no encontrada.` });
                             return;
                         }
                         
                         if (playlist.owner !== userId) {
-                            await interaction.editReply({ content: '❌ You can only delete your own playlists.' });
+                            await interaction.editReply({ content: '❌ Solo puedes eliminar tus propias playlists.' });
                             return;
                         }
                         
                         await playlistCollection.deleteOne({ name: playlistName, owner: userId });
                         
-                        const reply = await interaction.editReply({ content: `✅ Deleted playlist **${playlistName}**.` });
+                        const reply = await interaction.editReply({ content: `✅ Playlist **${playlistName}** eliminada.` });
                         setTimeout(() => reply.delete().catch(() => {}), 3000);
                     } catch (error) {
-                        console.error('Error deleting playlist:', error);
-                        await interaction.editReply({ content: '❌ Failed to delete playlist. Please try again later.' });
+                        console.error('Error al eliminar playlist:', error);
+                        await interaction.editReply({ content: '❌ No se pudo eliminar la playlist. Intenta más tarde.' });
                     }
                     break;
                 }
@@ -861,19 +864,18 @@ module.exports = {
                         );
                     
                         const reply = await interaction.editReply({
-                            content: `✅ Autoplay is now **${enable ? 'enabled' : 'disabled'}**.`
+                            content: `✅ Autoplay ahora está **${enable ? 'activado' : 'desactivado'}**.`
                         });
                     
                         setTimeout(() => reply.delete().catch(() => {}), 3000);
                         
-                        // Update player if it exists
                         const player = client.riffy.players.get(guildId);
                         if (player) {
                             player.autoplay = enable;
                         }
                     } catch (error) {
-                        console.error('Error setting autoplay:', error);
-                        await interaction.editReply({ content: '❌ Failed to set autoplay status. Please try again later.' });
+                        console.error('Error al configurar autoplay:', error);
+                        await interaction.editReply({ content: '❌ No se pudo configurar el autoplay. Intenta más tarde.' });
                     }
                     break;
                 }
@@ -886,44 +888,40 @@ module.exports = {
                         const playlist = await playlistCollection.findOne({ name: playlistName });
             
                         if (!playlist) {
-                            await interaction.editReply({ content: `❌ Playlist **${playlistName}** not found.` });
+                            await interaction.editReply({ content: `❌ Playlist **${playlistName}** no encontrada.` });
                             return;
                         }
             
                         if (playlist.owner !== userId && playlist.visibility === 'private') {
-                            await interaction.editReply({ content: `❌ You do not have permission to add songs to this private playlist.` });
+                            await interaction.editReply({ content: `❌ No tienes permiso para agregar canciones a esta playlist privada.` });
                             return;
                         }
             
-                        // Add song to the playlist
                         await playlistCollection.updateOne(
                             { name: playlistName },
                             { $push: { songs: songInput } }
                         );
             
-                        const reply = await interaction.editReply({ content: `✅ Added **"${songInput}"** to playlist **${playlistName}**.` });
+                        const reply = await interaction.editReply({ content: `✅ Añadida **"${songInput}"** a la playlist **${playlistName}**.` });
                         setTimeout(() => reply.delete().catch(() => {}), 3000);
                     } catch (error) {
-                        console.error('Error adding song to playlist:', error);
-                        await interaction.editReply({ content: '❌ Failed to add song to playlist. Please try again later.' });
+                        console.error('Error al agregar canción a playlist:', error);
+                        await interaction.editReply({ content: '❌ No se pudo agregar la canción. Intenta más tarde.' });
                     }
                     break;
                 }
 
                 default:
-                    await interaction.editReply({ content: `❌ Unknown subcommand: ${subcommand}` });
+                    await interaction.editReply({ content: `❌ Subcomando desconocido: ${subcommand}` });
                     break;
             }
         } catch (error) {
-            // Music command error (silent)
-        
-            const msg = '❌ An error occurred while executing the command. Please try again later.';
+            const msg = '❌ Ocurrió un error al ejecutar el comando. Intenta más tarde.';
             if (interaction.deferred || interaction.replied) {
                 await interaction.editReply({ content: msg }).catch(() => {});
             } else {
                 await interaction.reply({ content: msg, ephemeral: true }).catch(() => {});
             }
         }
-        
     }
 };
