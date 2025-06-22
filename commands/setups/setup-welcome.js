@@ -5,7 +5,7 @@ const cmdIcons = require('../../UI/icons/commandicons');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('configurar-bienvenida')
+        .setName('setup-welcome')
         .setDescription('Configura o visualiza el mensaje de bienvenida y los ajustes de DM para este servidor')
         .setDefaultMemberPermissions(PermissionsBitField.Flags.ManageChannels)
 
@@ -32,7 +32,7 @@ module.exports = {
         )
 
         .addSubcommand(sub =>
-            sub.setName('ver')
+            sub.setName('view')
                 .setDescription('Ver la configuración actual de bienvenida')
         ),
 
@@ -86,7 +86,7 @@ module.exports = {
                     ephemeral: true
                 });
 
-            } else if (subcommand === 'ver') {
+            } else if (subcommand === 'view') {
                 const config = await WelcomeSettings.findOne({ serverId: serverID });
 
                 if (!config) {
