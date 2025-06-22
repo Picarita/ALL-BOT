@@ -1,25 +1,22 @@
 /*
-
 ☆.。.:*・°☆.。.:*・°☆.。.:*・°☆.。.:*・°☆
-                                                 
+
   _________ ___ ___ ._______   _________    
  /   _____//   |   \|   \   \ /   /  _  \   
  \_____  \/    ~    \   |\   Y   /  /_\  \  
  /        \    Y    /   | \     /    |    \ 
 /_______  /\___|_  /|___|  \___/\____|__  / 
         \/       \/                     \/  
-                    
+
 DISCORD :  https://discord.com/invite/xQF9f9yUEM                   
 YouTube : https://www.youtube.com/@GlaceYT                         
 
-Command Verified : ✓  
-Website        : ssrr.tech  
-Test Passed    : ✓
+Comando Verificado : ✓  
+Sitio Web        : ssrr.tech  
+Prueba Aprobada  : ✓
 
 ☆.。.:*・°☆.。.:*・°☆.。.:*・°☆.。.:*・°☆
 */
-
-
 
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder, MessageCollector } = require('discord.js');
@@ -59,7 +56,7 @@ async function deleteQuizMessages(quizData) {
                 await msg.delete();
             } catch (err) {
                 if (err.code !== 10008) {
-                    console.error('Failed to delete message:', err);
+                    console.error('No se pudo eliminar el mensaje:', err);
                 }
             }
         }
@@ -70,7 +67,7 @@ async function deleteQuizMessages(quizData) {
             lastPermissionMessage = null;
         } catch (err) {
             if (err.code !== 10008) {
-                console.error('Failed to delete last permission message:', err);
+                console.error('No se pudo eliminar el último mensaje de permiso:', err);
             }
         }
     }
@@ -89,25 +86,25 @@ async function endQuiz(interaction, channelId, reason) {
         const channel = await interaction.client.channels.fetch(channelId);
         if (channel) {
             const endEmbed = new EmbedBuilder()
-                .setTitle('📚 Math Quiz Ended! 🧠')
+                .setTitle('📚 ¡Quiz de Matemáticas Finalizado! 🧠')
                 .setDescription(reason)
                 .setColor(0xff0000);
 
             await channel.send({ embeds: [endEmbed] });
         }
     } else {
-        await interaction.reply({ content: 'There is no active quiz to end.', ephemeral: true });
+        await interaction.reply({ content: 'No hay un quiz activo para finalizar.', ephemeral: true });
     }
 }
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('mathquiz')
-        .setDescription('Start a math quiz.')
+        .setDescription('Inicia un quiz de matemáticas.')
         .addSubcommand(subcommand =>
             subcommand
                 .setName('start')
-                .setDescription('Start a math quiz in this channel.')
+                .setDescription('Inicia un quiz de matemáticas en este canal.')
         ),
     async execute(interaction) {
         try {
@@ -117,7 +114,7 @@ module.exports = {
 
             if (subcommand === 'start') {
                 if (activeQuizzes.has(channelId)) {
-                    await interaction.reply({ content: 'There is already an active quiz in this channel.', ephemeral: true });
+                    await interaction.reply({ content: 'Ya hay un quiz activo en este canal.', ephemeral: true });
                     return;
                 }
 
@@ -134,17 +131,17 @@ module.exports = {
 
                 const startNextQuestion = async () => {
                     if (quizData.currentQuestionIndex >= quizData.questions.length) {
-                        await endQuiz(interaction, channelId, `🎉 Quiz completed! You scored ${quizData.correctAnswers}/${quizData.questions.length}.`);
+                        await endQuiz(interaction, channelId, `🎉 ¡Quiz completado! Tu puntaje fue ${quizData.correctAnswers}/${quizData.questions.length}.`);
                         return;
                     }
 
                     const { question, answer } = quizData.questions[quizData.currentQuestionIndex];
 
                     const quizEmbed = new EmbedBuilder()
-                        .setTitle('🧠 Math Quiz Question')
-                        .setDescription(`**Question ${quizData.currentQuestionIndex + 1}/5:** What is ${question}? Respond with \`!<your answer>\``)
+                        .setTitle('🧠 Pregunta de Quiz de Matemáticas')
+                        .setDescription(`**Pregunta ${quizData.currentQuestionIndex + 1}/5:** ¿Cuánto es ${question}? Responde con \`!<tu respuesta>\``)
                         .setColor(0x0099ff)
-                        .setFooter({ text: '⏳ You have 30 seconds to answer this question.' });
+                        .setFooter({ text: '⏳ Tienes 30 segundos para responder esta pregunta.' });
 
                     if (quizData.messages.length > 0) {
                         await deleteQuizMessages(quizData);
@@ -166,7 +163,7 @@ module.exports = {
                             if (lastPermissionMessage) {
                                 await lastPermissionMessage.delete();
                             }
-                            lastPermissionMessage = await response.channel.send({ content: `❌ ${response.author} does not have permission to submit answers. Please answer only in your quiz.`, ephemeral: true });
+                            lastPermissionMessage = await response.channel.send({ content: `❌ ${response.author} no tiene permiso para responder. Solo el usuario que inició el quiz puede contestar.`, ephemeral: true });
                             return;
                         }
 
@@ -174,9 +171,9 @@ module.exports = {
 
                         if (userAnswer === correctAnswer) {
                             quizData.correctAnswers++;
-                            await response.reply({ content: '✅ Correct!', ephemeral: true });
+                            await response.reply({ content: '✅ ¡Correcto!', ephemeral: true });
                         } else {
-                            await response.reply({ content: `❌ Incorrect! The correct answer was ${correctAnswer}.`, ephemeral: true });
+                            await response.reply({ content: `❌ ¡Incorrecto! La respuesta correcta era ${correctAnswer}.`, ephemeral: true });
                         }
 
                         quizData.currentQuestionIndex++;
@@ -189,10 +186,10 @@ module.exports = {
                             quizData.timeoutCount++;
 
                             if (quizData.timeoutCount >= 3) {
-                                await endQuiz(interaction, channelId, `🛑 The quiz has ended due to inactivity after 3 timeouts.`);
+                                await endQuiz(interaction, channelId, `🛑 El quiz terminó por inactividad después de 3 tiempos agotados.`);
                                 return;
                             } else {
-                                const timeoutMessage = await interaction.channel.send(`⏳ Time is up! Moving to the ${quizData.currentQuestionIndex + 1}/5 question. ⏭️`);
+                                const timeoutMessage = await interaction.channel.send(`⏳ ¡Tiempo agotado! Pasando a la pregunta ${quizData.currentQuestionIndex + 1}/5. ⏭️`);
                                 quizData.messages.push(timeoutMessage);
                                 quizData.currentQuestionIndex++;
                                 startNextQuestion();
@@ -201,35 +198,32 @@ module.exports = {
                     });
                 };
 
-                await interaction.reply({ content: '🎉 Math quiz started! Answer the questions with `!<your answer>`.', ephemeral: true });
+                await interaction.reply({ content: '🎉 ¡Quiz de matemáticas iniciado! Responde con `!<tu respuesta>`. ', ephemeral: true });
                 startNextQuestion();
             }
         } catch (error) {
-            console.error('Error executing math quiz command:', error);
-            await interaction.reply({ content: 'There was an error executing the command.', ephemeral: true });
+            console.error('Error al ejecutar el comando math quiz:', error);
+            await interaction.reply({ content: 'Ocurrió un error al ejecutar el comando.', ephemeral: true });
         }
     },
 };
 
-
 /*
-
 ☆.。.:*・°☆.。.:*・°☆.。.:*・°☆.。.:*・°☆
-                                                 
+
   _________ ___ ___ ._______   _________    
  /   _____//   |   \|   \   \ /   /  _  \   
  \_____  \/    ~    \   |\   Y   /  /_\  \  
  /        \    Y    /   | \     /    |    \ 
 /_______  /\___|_  /|___|  \___/\____|__  / 
         \/       \/                     \/  
-                    
+
 DISCORD :  https://discord.com/invite/xQF9f9yUEM                   
 YouTube : https://www.youtube.com/@GlaceYT                         
 
-Command Verified : ✓  
-Website        : ssrr.tech  
-Test Passed    : ✓
+Comando Verificado : ✓  
+Sitio Web        : ssrr.tech  
+Prueba Aprobada  : ✓
 
 ☆.。.:*・°☆.。.:*・°☆.。.:*・°☆.。.:*・°☆
 */
-
