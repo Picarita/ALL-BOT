@@ -4,16 +4,15 @@ const {
   Hangman, MatchPairs, Minesweeper, TicTacToe, Wordle, RockPaperScissors, Trivia
 } = require('discord-gamecord');
 
-// Keep track of active collectors for each user
+// Guardar colecciones activas por usuario
 const activeCollectors = new Map();
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('game')
-    .setDescription('Play a game!'),
+    .setDescription('¡Juega un juego!'),
 
   async execute(interaction) {
-    // Clean up existing collector for this user if it exists
     const existingCollector = activeCollectors.get(interaction.user.id);
     if (existingCollector) {
       existingCollector.stop();
@@ -23,7 +22,7 @@ module.exports = {
     const row = new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()
         .setCustomId('game_select')
-        .setPlaceholder('Select a game to play')
+        .setPlaceholder('Selecciona un juego para jugar')
         .addOptions([
           { label: 'Snake', value: 'snake' },
           { label: '2048', value: '2048' },
@@ -42,15 +41,14 @@ module.exports = {
     );
 
     const response = await interaction.reply({
-      content: 'Select a game to play:',
+      content: 'Selecciona un juego para jugar:',
       components: [row],
-      fetchReply: true // This ensures we get the message object back
+      fetchReply: true
     });
 
     const filter = i => i.customId === 'game_select' && i.user.id === interaction.user.id;
     const collector = response.createMessageComponentCollector({ filter, time: 60000 });
     
-    // Store the collector reference
     activeCollectors.set(interaction.user.id, collector);
 
     collector.on('collect', async i => {
@@ -74,14 +72,14 @@ module.exports = {
       const gameConfigs = {
         rps: {
           embed: {
-            title: 'Rock Paper Scissors',
+            title: 'Piedra Papel Tijeras',
             color: '#5865F2',
-            description: 'Press a button below to make a choice.'
+            description: 'Presiona un botón para elegir.'
           },
           buttons: {
-            rock: 'Rock',
-            paper: 'Paper',
-            scissors: 'Scissors'
+            rock: 'Piedra',
+            paper: 'Papel',
+            scissors: 'Tijeras'
           },
           emojis: {
             rock: '🌑',
@@ -91,17 +89,17 @@ module.exports = {
           mentionUser: true,
           timeoutTime: 60000,
           buttonStyle: 'PRIMARY',
-          pickMessage: 'You choose {emoji}.',
-          winMessage: '**{player}** won the Game! Congratulations!',
-          tieMessage: 'The Game tied! No one won the Game!',
-          timeoutMessage: 'The Game went unfinished! No one won the Game!',
-          playerOnlyMessage: 'Only {player} and {opponent} can use these buttons.'
+          pickMessage: 'Elegiste {emoji}.',
+          winMessage: '**{player}** ganó el juego! ¡Felicidades!',
+          tieMessage: '¡Empate! Nadie ganó el juego.',
+          timeoutMessage: '¡El juego no se completó! Nadie ganó.',
+          playerOnlyMessage: 'Solo {player} y {opponent} pueden usar estos botones.'
         },
         trivia: {
           embed: {
             title: 'Trivia',
             color: '#5865F2',
-            description: 'You have 60 seconds to guess the answer.'
+            description: 'Tienes 60 segundos para responder.'
           },
           timeoutTime: 60000,
           buttonStyle: 'PRIMARY',
@@ -109,14 +107,13 @@ module.exports = {
           falseButtonStyle: 'DANGER',
           mode: 'multiple',
           difficulty: 'medium',
-          winMessage: 'You won! The correct answer is {answer}.',
-          loseMessage: 'You lost! The correct answer is {answer}.',
-          errMessage: 'Unable to fetch question data! Please try again.',
-          playerOnlyMessage: 'Only {player} can use these buttons.'
+          winMessage: '¡Ganaste! La respuesta correcta es {answer}.',
+          loseMessage: '¡Perdiste! La respuesta correcta es {answer}.',
+          errMessage: '¡No se pudo obtener la pregunta! Inténtalo de nuevo.',
+          playerOnlyMessage: 'Solo {player} puede usar estos botones.'
         }
       };
 
-      // Stop the collector once a game is selected
       collector.stop();
       activeCollectors.delete(interaction.user.id);
 
@@ -134,13 +131,11 @@ module.exports = {
     });
 
     collector.on('end', (collected, reason) => {
-      // Remove the collector reference when it ends
       activeCollectors.delete(interaction.user.id);
 
-    
       if (reason === 'time' && collected.size === 0) {
         interaction.editReply({
-          content: 'You took too long to select a game!',
+          content: '¡Tardaste demasiado en elegir un juego!',
           components: [] 
         }).catch(console.error);
       }
