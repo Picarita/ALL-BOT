@@ -16,7 +16,7 @@ module.exports = {
         
         if (interaction.isCommand && interaction.isCommand()) {
      
-            const BOT_ICON = " ";
+            const BOT_ICON = "https://www.logotypes101.com/logos/482/181D284344B0B6EECB43A1DC71E44AE5/tn_jacks.png";
             const EMBED_COLOR = "#5865F2"; 
             const FOOTER_TEXT = "Todo En Uno | El Sistema Operativo de Discord";
             const COMMANDS_DIR = path.join(__dirname, '../../commands');
@@ -132,8 +132,8 @@ module.exports = {
                         `\`💻\` **Comandos con Prefijo:** ${Object.values(config.excessCommands).some(v => v) ? '`Enabled`' : '`Disabled`'}`,
                         '',
                     ].join('\n'),
-                    author: { name: '' },
-                    icon: ''
+                    author: { name: 'Picarita' },
+                    icon: '📚'
                 });
 
               
@@ -202,7 +202,7 @@ module.exports = {
                     .setAuthor({
                         name: page.author.name,
                         iconURL: BOT_ICON,
-                        url: " "
+                        url: "https://www.youtube.com/watch?v=mCh6VpxLubc"
                     })
                     .setImage(helpBanner)
                     .setFooter({ text: `${FOOTER_TEXT} • Page ${currentPage + 1}/${currentSet.length}` })
@@ -378,7 +378,7 @@ module.exports = {
                 .setAuthor({
                     name: "Command Error",
                     iconURL: cmdIcons.dotIcon,
-                    url: " "
+                    url: "https://www.youtube.com/watch?v=mCh6VpxLubc"
                 })
                 .setDescription('> ⚠️ Este comando solo se puede usar como comando slash!\n> Por favor, usa /help en su lugar.')
                 .setFooter({ text: 'Todo En Un Bot • Error' })
