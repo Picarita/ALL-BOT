@@ -13,9 +13,7 @@ const logHandlersIcons = require('../UI/icons/loghandlers');
  * Funciones Auxiliares
  */
 function getOrdinalSuffix(number) {
-    if ([11, 12, 13].includes(number % 100)) return 'th';
-    const lastDigit = number % 10;
-    return ['st', 'nd', 'rd'][lastDigit - 1] || 'th';
+    return number + 'º';
 }
 
 function getRandomImage(images) {
