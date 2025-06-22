@@ -10,7 +10,7 @@ const VerificationConfig = require('../models/gateVerification/verificationConfi
 const logHandlersIcons = require('../UI/icons/loghandlers');
 
 /**
- * Helper Functions
+ * Funciones Auxiliares
  */
 function getOrdinalSuffix(number) {
     if ([11, 12, 13].includes(number % 100)) return 'th';
@@ -27,7 +27,7 @@ function truncateUsername(username, maxLength = 15) {
 }
 
 /**
- * Feature-specific handler functions
+ * Funciones específicas para características
  */
 async function handleVerification(member, verificationConfig) {
     try {
@@ -36,12 +36,12 @@ async function handleVerification(member, verificationConfig) {
         const unverifiedRole = member.guild.roles.cache.get(verificationConfig.unverifiedRoleId);
         if (unverifiedRole) {
             await member.roles.add(unverifiedRole);
-            console.log(`✅ Assigned Unverified role to ${member.user.tag}`);
+            console.log(`✅ Rol "No verificado" asignado a ${member.user.tag}`);
         } else {
-            console.log('❌ Unverified role not found.');
+            console.log('❌ Rol "No verificado" no encontrado.');
         }
     } catch (error) {
-        console.error('❌ Error in verification handler:', error);
+        console.error('❌ Error en el manejador de verificación:', error);
     }
 }
 
@@ -57,9 +57,7 @@ async function handleInviteTracking(client, member) {
         const usedInvite = newInvites.find(inv => storedInvites.has(inv.code) && inv.uses > storedInvites.get(inv.code).uses);
         const inviterId = usedInvite ? usedInvite.inviter.id : null;
         
-     
-        client.invites.set(guild.id, new Map(newInvites.map(inv => [inv.code, { inviterId: inv.inviter?.id || "Unknown", uses: inv.uses }])));
-        
+        client.invites.set(guild.id, new Map(newInvites.map(inv => [inv.code, { inviterId: inv.inviter?.id || "Desconocido", uses: inv.uses }])));
         
         if (inviterId && usedInvite) {
             await Invite.create({
@@ -70,7 +68,6 @@ async function handleInviteTracking(client, member) {
             });
         }
         
-        
         if (settings.inviteLogChannelId) {
             const channel = guild.channels.cache.get(settings.inviteLogChannelId);
             if (channel) {
@@ -80,14 +77,14 @@ async function handleInviteTracking(client, member) {
                     totalInvites = inviteData.length + 1; 
                 }
                 
-                const inviter = inviterId ? `<@${inviterId}>` : "Unknown";
-                channel.send(`📩 **Invite Log:** ${member} joined using an invite from ${inviter}. (**Total Invites: ${totalInvites}**)`);
+                const inviter = inviterId ? `<@${inviterId}>` : "Desconocido";
+                channel.send(`📩 **Registro de Invitación:** ${member} se unió usando una invitación de ${inviter}. (**Total de Invitaciones: ${totalInvites}**)`);
             }
         }
         
         return { usedInvite, inviterId };
     } catch (error) {
-        console.error("❌ Error tracking invite:", error);
+        console.error("❌ Error al rastrear invitación:", error);
         return { usedInvite: null, inviterId: null };
     }
 }
@@ -104,19 +101,19 @@ async function handleMemberJoinLog(client, member) {
         if (!logChannel) return;
         
         const logEmbed = new EmbedBuilder()
-            .setTitle('🎉 Member Joined')
+            .setTitle('🎉 Miembro Entró')
             .setColor('#00FF00')
             .addFields(
-                { name: 'User', value: `${user.tag} (${user.id})`, inline: true },
-                { name: 'Joined At', value: new Date().toLocaleString(), inline: true },
+                { name: 'Usuario', value: `${user.tag} (${user.id})`, inline: true },
+                { name: 'Fecha de Entrada', value: new Date().toLocaleString(), inline: true },
             )
             .setThumbnail(user.displayAvatarURL())
-            .setFooter({ text: 'Logs System', iconURL: logHandlersIcons.footerIcon })
+            .setFooter({ text: 'Sistema de Registros', iconURL: logHandlersIcons.footerIcon })
             .setTimestamp();
 
         await logChannel.send({ embeds: [logEmbed] });
     } catch (error) {
-        console.error('❌ Error in member join log handler:', error);
+        console.error('❌ Error en el manejador de registro de entrada:', error);
     }
 }
 
@@ -136,10 +133,10 @@ async function handleWelcomeChannel(member, welcomeSettings) {
         const serverIcon = member.guild.iconURL({ format: 'png', dynamic: true, size: 256 });
 
         const randomImage = getRandomImage(data.welcomeImages);
-        const shortTitle = truncateUsername(`Welcome ${memberCount}${suffix}`, 15);
+        const shortTitle = truncateUsername(`Bienvenido ${memberCount}${suffix}`, 15);
 
         const welcomecard = new Wcard()
-            .setName(username) 
+            .setName(username)
             .setAvatar(user.displayAvatarURL({ format: 'png' }))
             .setTitle(shortTitle)
             .setColor("00e5ff")
@@ -149,36 +146,34 @@ async function handleWelcomeChannel(member, welcomeSettings) {
         const attachment = new AttachmentBuilder(cardBuffer, { name: 'welcome.png' });
 
         const welcomeEmbed = new EmbedBuilder()
-            .setTitle("Welcome!")
-            .setDescription(`${member}, You are the **${memberCount}${suffix}** member of our server!`)
+            .setTitle("¡Bienvenido!")
+            .setDescription(`${member}, ¡Eres el miembro **${memberCount}${suffix}** de nuestro servidor!`)
             .setColor("#00e5ff")
             .setThumbnail(serverIcon)
             .setImage('attachment://welcome.png')
             .addFields(
-                { name: 'Username', value: username, inline: true },
-                { name: 'Join Date', value: joinDate, inline: true },
-                { name: 'Account Created', value: creationDate, inline: true }
+                { name: 'Nombre de usuario', value: username, inline: true },
+                { name: 'Fecha de entrada', value: joinDate, inline: true },
+                { name: 'Cuenta creada', value: creationDate, inline: true }
             )
-            .setFooter({ text: "We're glad to have you here!", iconURL: serverIcon })
+            .setFooter({ text: "¡Nos alegra tenerte aquí!", iconURL: serverIcon })
             .setAuthor({ name: username, iconURL: user.displayAvatarURL() })
             .setTimestamp();
 
         await welcomeChannel.send({
-            content: `Hey ${member}!`,
+            content: `¡Hola ${member}!`,
             embeds: [welcomeEmbed],
             files: [attachment]
         });
 
     } catch (error) {
-        console.error('❌ Error in welcome channel handler:', error);
+        console.error('❌ Error en el manejador del canal de bienvenida:', error);
     }
 }
-
 
 function truncateUsername(name, maxLength = 15) {
     return name.length > maxLength ? name.slice(0, maxLength - 3) + '...' : name;
 }
-
 
 async function handleWelcomeDM(member, welcomeSettings) {
     try {
@@ -187,19 +182,19 @@ async function handleWelcomeDM(member, welcomeSettings) {
         const dmEmbed = createWelcomeDMEmbed(member);
         await member.user.send({ embeds: [dmEmbed] });
     } catch (error) {
-        console.warn(`❌ Failed to send DM to ${member.user.tag}:`, error.message);
+        console.warn(`❌ No se pudo enviar DM a ${member.user.tag}:`, error.message);
     }
 }
 
 /**
- * Main Member Join Handler
+ * Manejador principal de entrada de miembros
  */
 module.exports = async function memberJoinHandler(client) {
     client.on('guildMemberAdd', async (member) => {
         try {
             const guildId = member.guild.id;
             
-            // Fetch all needed configuration in parallel to improve performance
+            // Obtener todas las configuraciones necesarias en paralelo para mejorar rendimiento
             const [
                 welcomeSettings, 
                 verificationConfig
@@ -208,26 +203,16 @@ module.exports = async function memberJoinHandler(client) {
                 VerificationConfig.findOne({ guildId })
             ]);
 
- 
             await Promise.allSettled([
-            
                 handleVerification(member, verificationConfig),
-                
-             
                 handleInviteTracking(client, member),
-                
-             
                 handleMemberJoinLog(client, member),
-                
-                
                 handleWelcomeChannel(member, welcomeSettings),
-                
-                
                 handleWelcomeDM(member, welcomeSettings)
             ]);
             
         } catch (error) {
-            console.error('❌ Error in member join handler:', error);
+            console.error('❌ Error en el manejador de entrada de miembro:', error);
         }
     });
 };
