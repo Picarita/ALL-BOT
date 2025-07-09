@@ -34,16 +34,26 @@ module.exports = {
         return interaction.editReply('No hay juegos gratuitos disponibles en este momento.');
       }
 
-      for (const game of games) {
-        const image = game.keyImages?.[0]?.url;
-        const embed = new EmbedBuilder()
-          .setTitle(game.title)
-          .setURL(`https://store.epicgames.com/p/${game.productSlug}`)
-          .setDescription(game.description?.slice(0, 300) || 'Sin descripción.')
-          .setImage(image)
-          .setColor(0x00AEFF);
+       for (const game of games) {
+  const slug = game.productSlug
+    || game.catalogNs?.mappings?.[0]?.pageSlug
+    || '';
+  
+  console.log('Slug:', slug);
+  
+  const url = slug.includes('/')
+    ? `https://www.epicgames.com/store/${slug}`
+    : `https://store.epicgames.com/p/${slug}`;
+  
+  const embed = new EmbedBuilder()
+    .setTitle(game.title)
+    .setURL(url)
+    .setDescription(game.description?.slice(0, 300) || 'Sin descripción.')
+    .setImage(game.keyImages?.[0]?.url)
+    .setColor(0x00AEFF);
+  
+  await interaction.followUp({ embeds: [embed] });
 
-        await interaction.followUp({ embeds: [embed] });
 
       }
 
