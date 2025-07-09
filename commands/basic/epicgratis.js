@@ -34,28 +34,31 @@ module.exports = {
         return interaction.editReply('No hay juegos gratuitos disponibles en este momento.');
       }
 
-       for (const game of games) {
-  const slug = game.productSlug
-    || game.catalogNs?.mappings?.[0]?.pageSlug
-    || '';
-  
-  console.log('Slug:', slug);
-  
-  const url = slug.includes('/')
-    ? `https://www.epicgames.com/store/${slug}`
-    : `https://store.epicgames.com/p/${slug}`;
-  
+      for (const game of games) {
+  const slug =
+    game.productSlug ||
+    game.catalogNs?.mappings?.[0]?.pageSlug ||
+    null;
+
+  if (!slug) {
+    console.log(`❌ Juego sin slug válido: ${game.title}`);
+    continue; // No se puede formar un enlace válido
+  }
+
+  const url = `https://store.epicgames.com/p/${slug}`;
+  const image = game.keyImages?.[0]?.url;
+
   const embed = new EmbedBuilder()
     .setTitle(game.title)
     .setURL(url)
     .setDescription(game.description?.slice(0, 300) || 'Sin descripción.')
-    .setImage(game.keyImages?.[0]?.url)
+    .setImage(image)
     .setColor(0x00AEFF);
-  
+
   await interaction.followUp({ embeds: [embed] });
+}
 
 
-      }
 
       await interaction.editReply({ content: '🎮 Juegos gratuitos de Epic Games:', ephemeral: false });
 
