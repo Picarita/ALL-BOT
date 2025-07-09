@@ -19,12 +19,8 @@ module.exports = {
                   title
                   description
                   keyImages { type url }
-                  catalogNs {
-                    mappings { pageSlug }
-                  }
-                  price {
-                    totalPrice { discountPrice }
-                  }
+                  catalogNs { mappings { pageSlug } }
+                  price { totalPrice { discountPrice } }
                   promotions {
                     promotionalOffers {
                       promotionalOffers {
@@ -41,7 +37,7 @@ module.exports = {
       });
 
       const now = new Date();
-      const games = response.data.data.Catalog.searchStore.elements;
+      const games = response.data?.data?.Catalog?.searchStore?.elements || [];
 
       let sentCount = 0;
 
@@ -49,16 +45,12 @@ module.exports = {
         const discount = game.price?.totalPrice?.discountPrice;
         if (discount !== 0) continue;
 
-        const offers = game.promotions?.promotionalOffers?.[0]?.promotionalOffers?.[0];
-        const start = offers?.startDate;
-        const end = offers?.endDate;
+        const promo = game.promotions?.promotionalOffers?.[0]?.promotionalOffers?.[0];
+        if (!promo?.startDate || !promo?.endDate) continue;
 
-        if (!start || !end) continue;
-
-        const startDate = new Date(start);
-        const endDate = new Date(end);
-
-        if (!(now >= startDate && now <= endDate)) continue;
+        const start = new Date(promo.startDate);
+        const end = new Date(promo.endDate);
+        if (!(now >= start && now <= end)) continue;
 
         const pageSlug = game.catalogNs?.mappings?.[0]?.pageSlug;
         if (!pageSlug) continue;
@@ -80,12 +72,15 @@ module.exports = {
       if (sentCount === 0) {
         await interaction.editReply('🎮 No hay juegos gratuitos activos esta semana.');
       } else {
-        await interaction.editReply({ content: '🎁 Juegos semanales gratuitos de Epic:', ephemeral: false });
+        await interaction.editReply({ content: '🎁 Juegos semanales gratuitos de Epic Games:', ephemeral: false });
       }
 
     } catch (error) {
-      console.error('❌ Error en /epicgratis:', error);
-      await interaction.editReply('❌ Ocurrió un error al obtener los juegos.');
+      if (error.response?.data?.errors) {
+        console.error('GraphQL Errors:', error.response.data.errors);
+      }
+      console.error('❌ Error en /epicgratis:', error.message);
+      await interaction.editReply('❌ Ocurrió un error al obtener los juegos de Epic.');
     }
   }
 };
