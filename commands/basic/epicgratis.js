@@ -1,4 +1,3 @@
-// commands/epicgratis.js
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const axios = require('axios');
 
@@ -15,12 +14,16 @@ module.exports = {
         query: `
           query {
             Catalog {
-              searchStore(category: "freegames", count: 5) {
+              searchStore(category: "freegames", count: 10) {
                 elements {
                   title
-                  productSlug
                   description
                   keyImages { type url }
+                  catalogNs {
+                    mappings {
+                      pageSlug
+                    }
+                  }
                 }
               }
             }
@@ -30,41 +33,39 @@ module.exports = {
 
       const games = response.data.data.Catalog.searchStore.elements;
 
-      if (!games.length) {
-        return interaction.editReply('No hay juegos gratuitos disponibles en este momento.');
-      }
+      let sentCount = 0;
 
       for (const game of games) {
-  const slug =
-    game.productSlug ||
-    game.catalogNs?.mappings?.[0]?.pageSlug ||
-    null;
+        const pageSlug = game.catalogNs?.mappings?.[0]?.pageSlug;
 
-  if (!slug) {
-    console.log(`❌ Juego sin slug válido: ${game.title}`);
-    continue; // No se puede formar un enlace válido
-  }
+        if (!pageSlug) {
+          console.log(`❌ Sin URL válida: ${game.title}`);
+          continue;
+        }
 
-  const url = `https://store.epicgames.com/p/${slug}`;
-  const image = game.keyImages?.[0]?.url;
+        const url = `https://store.epicgames.com/es-ES/p/${pageSlug}`;
+        const image = game.keyImages?.[0]?.url;
 
-  const embed = new EmbedBuilder()
-    .setTitle(game.title)
-    .setURL(url)
-    .setDescription(game.description?.slice(0, 300) || 'Sin descripción.')
-    .setImage(image)
-    .setColor(0x00AEFF);
+        const embed = new EmbedBuilder()
+          .setTitle(game.title)
+          .setURL(url)
+          .setDescription(game.description?.slice(0, 300) || 'Sin descripción.')
+          .setImage(image)
+          .setColor(0x00AEFF);
 
-  await interaction.followUp({ embeds: [embed] });
-}
+        await interaction.followUp({ embeds: [embed] });
+        sentCount++;
+      }
 
-
-
-      await interaction.editReply({ content: '🎮 Juegos gratuitos de Epic Games:', ephemeral: false });
+      if (sentCount === 0) {
+        await interaction.editReply('No se pudieron encontrar juegos gratuitos válidos para mostrar.');
+      } else {
+        await interaction.editReply({ content: `🎁 Juegos gratuitos en Epic Games:`, ephemeral: false });
+      }
 
     } catch (error) {
-      console.error(error);
-      await interaction.editReply('❌ Hubo un error al obtener los juegos.');
+      console.error('❌ Error en /epicgratis:', error);
+      await interaction.editReply('❌ Ocurrió un error al obtener los juegos.');
     }
   }
 };
