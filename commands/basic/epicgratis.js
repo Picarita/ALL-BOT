@@ -35,18 +35,15 @@ module.exports = {
       }
 
       for (const game of games) {
-  const slug = game.productSlug || game.catalogNs?.mappings?.[0]?.pageSlug || '';
-  const url = `https://store.epicgames.com/p/${slug}`;
-  const image = game.keyImages?.[0]?.url;
+        const image = game.keyImages?.[0]?.url;
+        const embed = new EmbedBuilder()
+          .setTitle(game.title)
+          .setURL(`https://store.epicgames.com/p/${game.productSlug}`)
+          .setDescription(game.description?.slice(0, 300) || 'Sin descripción.')
+          .setImage(image)
+          .setColor(0x00AEFF);
 
-  const embed = new EmbedBuilder()
-    .setTitle(game.title)
-    .setURL(url)
-    .setDescription(game.description?.slice(0, 300) || 'Sin descripción.')
-    .setImage(image)
-    .setColor(0x00AEFF);
-
-  await interaction.followUp({ embeds: [embed] });
+        await interaction.followUp({ embeds: [embed] });
 
       }
 
