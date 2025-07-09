@@ -4,7 +4,7 @@ const axios = require('axios');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('epicgratis')
-    .setDescription('Muestra los juegos gratis de Epic Games'),
+    .setDescription('Muestra los juegos semanales gratuitos de Epic Games'),
 
   async execute(interaction) {
     await interaction.deferReply();
@@ -14,14 +14,23 @@ module.exports = {
         query: `
           query {
             Catalog {
-              searchStore(category: "freegames", count: 10) {
+              searchStore(category: "freegames", count: 30) {
                 elements {
                   title
                   description
                   keyImages { type url }
                   catalogNs {
-                    mappings {
-                      pageSlug
+                    mappings { pageSlug }
+                  }
+                  price {
+                    totalPrice { discountPrice }
+                  }
+                  promotions {
+                    promotionalOffers {
+                      promotionalOffers {
+                        startDate
+                        endDate
+                      }
                     }
                   }
                 }
@@ -31,17 +40,28 @@ module.exports = {
         `
       });
 
+      const now = new Date();
       const games = response.data.data.Catalog.searchStore.elements;
 
       let sentCount = 0;
 
       for (const game of games) {
-        const pageSlug = game.catalogNs?.mappings?.[0]?.pageSlug;
+        const discount = game.price?.totalPrice?.discountPrice;
+        if (discount !== 0) continue;
 
-        if (!pageSlug) {
-          console.log(`❌ Sin URL válida: ${game.title}`);
-          continue;
-        }
+        const offers = game.promotions?.promotionalOffers?.[0]?.promotionalOffers?.[0];
+        const start = offers?.startDate;
+        const end = offers?.endDate;
+
+        if (!start || !end) continue;
+
+        const startDate = new Date(start);
+        const endDate = new Date(end);
+
+        if (!(now >= startDate && now <= endDate)) continue;
+
+        const pageSlug = game.catalogNs?.mappings?.[0]?.pageSlug;
+        if (!pageSlug) continue;
 
         const url = `https://store.epicgames.com/es-ES/p/${pageSlug}`;
         const image = game.keyImages?.[0]?.url;
@@ -58,9 +78,9 @@ module.exports = {
       }
 
       if (sentCount === 0) {
-        await interaction.editReply('No se pudieron encontrar juegos gratuitos válidos para mostrar.');
+        await interaction.editReply('🎮 No hay juegos gratuitos activos esta semana.');
       } else {
-        await interaction.editReply({ content: `🎁 Juegos gratuitos en Epic Games:`, ephemeral: false });
+        await interaction.editReply({ content: '🎁 Juegos semanales gratuitos de Epic:', ephemeral: false });
       }
 
     } catch (error) {
