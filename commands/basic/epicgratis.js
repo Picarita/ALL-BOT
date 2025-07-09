@@ -14,18 +14,13 @@ module.exports = {
         query: `
           query {
             Catalog {
-              searchStore(
-                category: "freegames",
-                count: 30,
-                country: "US",
-                locale: "es-ES"
-              ) {
+              searchStore(category: "freegames", count: 30) {
                 elements {
                   title
                   description
                   keyImages { type url }
                   catalogNs { mappings { pageSlug } }
-                  price {
+                  price(country: "US") {
                     totalPrice { discountPrice }
                   }
                   promotions {
