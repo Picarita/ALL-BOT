@@ -12,73 +12,72 @@
 DISCORD :  https://discord.com/invite/xQF9f9yUEM                   
 YouTube : https://www.youtube.com/@GlaceYT                         
 
-Command Verified : ✓  
-Website        : ssrr.tech  
-Test Passed    : ✓
+Comando Verificado : ✓  
+Sitio Web         : ssrr.tech  
+Prueba Superada   : ✓
 
 ☆.。.:*・°☆.。.:*・°☆.。.:*・°☆.。.:*・°☆
 */
 
-
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder } = require('discord.js');
 
-const scrambleWord = word => {
-    const letters = word.split('');
-    for (let i = letters.length - 1; i > 0; i--) {
+const revolverPalabra = palabra => {
+    const letras = palabra.split('');
+    for (let i = letras.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [letters[i], letters[j]] = [letters[j], letters[i]];
+        [letras[i], letras[j]] = [letras[j], letras[i]];
     }
-    return letters.join('');
+    return letras.join('');
 };
 
-const words = [
-    'apple', 'banana', 'cherry', 'date', 'elderberry', 'fig', 'grape', 'honeydew', 'kiwi', 'lemon',
-    'mango', 'nectarine', 'orange', 'papaya', 'quince', 'raspberry', 'strawberry', 'tangerine', 'ugli', 'vine',
-    'watermelon', 'xigua', 'yam', 'zucchini', 'avocado', 'blueberry', 'cantaloupe', 'dragonfruit', 'grapefruit', 'huckleberry',
-    'jackfruit', 'kiwano', 'lime', 'melon', 'nectar', 'olive', 'pear', 'plum', 'pomegranate', 'rhubarb',
-    'starfruit', 'tomato', 'apricot', 'blackberry', 'coconut', 'cucumber', 'gooseberry', 'pear', 'persimmon', 'pineapple',
-    'pomegranate', 'quince', 'raspberry', 'strawberry', 'tamarind', 'banana', 'kiwi', 'fig', 'dates', 'grapefruit',
-    'grapes', 'lemon', 'lime', 'melon', 'mango', 'nectarine', 'peach', 'plum', 'papaya', 'passionfruit',
-    'peach', 'pear', 'pineapple', 'plum', 'pomegranate', 'tangerine', 'watermelon', 'zucchini', 'eggplant', 'onion',
-    'tomato', 'cucumber', 'bellpepper', 'broccoli', 'carrot', 'cauliflower', 'celery', 'corn', 'spinach', 'garlic',
-    'ginger', 'kale', 'lettuce', 'mushroom', 'pumpkin', 'radish', 'squash', 'sweetpotato', 'turnip', 'beet',
-    'artichoke', 'asparagus', 'bean', 'brusselsprout', 'cabbage', 'chard', 'chili', 'dandelion', 'edamame', 'jalapeno',
-    'leek', 'olives', 'parsley', 'pea', 'potato', 'rhubarb', 'shallot', 'snowpea', 'sprout', 'swisschard',
-    'taro', 'tomatillo', 'watercress', 'yarrow', 'zucchini', 'yam', 'jicama', 'daikon', 'chayote', 'yogurt',
-    'cheddar', 'mozzarella', 'parmesan', 'brie', 'camembert', 'feta', 'gouda', 'ricotta', 'blue', 'goat',
-    'cottage', 'cream', 'gruyere', 'provolone', 'swiss', 'havarti', 'american', 'colby', 'jack', 'queso'
+const palabras = [
+    'manzana', 'banana', 'cereza', 'dátil', 'saúco', 'higo', 'uva', 'melón dulce', 'kiwi', 'limón',
+    'mango', 'nectarina', 'naranja', 'papaya', 'membrillo', 'frambuesa', 'fresa', 'mandarina', 'ugli', 'vid',
+    'sandía', 'xigua', 'ñame', 'calabacín', 'aguacate', 'arándano', 'melón cantalupo', 'fruta del dragón', 'pomelo', 'arándano rojo',
+    'jaca', 'kiwano', 'lima', 'melón', 'néctar', 'aceituna', 'pera', 'ciruela', 'granada', 'ruibarbo',
+    'carambola', 'tomate', 'albaricoque', 'mora', 'coco', 'pepino', 'grosella', 'pera', 'caqui', 'piña',
+    'granada', 'membrillo', 'frambuesa', 'fresa', 'tamarindo', 'banana', 'kiwi', 'higo', 'dátiles', 'pomelo',
+    'uvas', 'limón', 'lima', 'melón', 'mango', 'nectarina', 'durazno', 'ciruela', 'papaya', 'maracuyá',
+    'durazno', 'pera', 'piña', 'ciruela', 'granada', 'mandarina', 'sandía', 'calabacín', 'berenjena', 'cebolla',
+    'tomate', 'pepino', 'pimiento', 'brócoli', 'zanahoria', 'coliflor', 'apio', 'maíz', 'espinaca', 'ajo',
+    'jengibre', 'col rizada', 'lechuga', 'champiñón', 'calabaza', 'rábano', 'calabacín', 'batata', 'nabo', 'remolacha',
+    'alcachofa', 'espárrago', 'frijol', 'col de Bruselas', 'repollo', 'acelga', 'chile', 'diente de león', 'edamame', 'jalapeño',
+    'puerro', 'aceitunas', 'perejil', 'guisante', 'papa', 'ruibarbo', 'chalote', 'arveja de nieve', 'brote', 'acelga suiza',
+    'taro', 'tomatillo', 'berro', 'milenrama', 'calabacín', 'ñame', 'jícama', 'daikon', 'chayote', 'yogur',
+    'cheddar', 'mozzarella', 'parmesano', 'brie', 'camembert', 'feta', 'gouda', 'ricota', 'azul', 'cabra',
+    'requesón', 'crema', 'gruyere', 'provolone', 'suizo', 'havarti', 'americano', 'colby', 'jack', 'queso'
 ];
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('wordscramble')
-        .setDescription('Starts a word scramble game with a scrambled word.'),
+        .setDescription('Inicia un juego de palabras revueltas con una palabra desordenada.'),
     async execute(interaction) {
-        const word = words[Math.floor(Math.random() * words.length)];
-        const scrambledWord = scrambleWord(word);
+        const palabra = palabras[Math.floor(Math.random() * palabras.length)];
+        const palabraRevuelta = revolverPalabra(palabra);
         const scrambleEmbed = new EmbedBuilder()
             .setColor('#0099ff')
-            .setTitle('Word Scramble!')
-            .setDescription(`Unscramble the word: **${scrambledWord}**`)
-            .setFooter({ text: 'Type your answer below.' });
+            .setTitle('¡Palabra Revuelta!')
+            .setDescription(`Reordena la palabra: **${palabraRevuelta}**`)
+            .setFooter({ text: 'Escribe tu respuesta abajo.' });
 
         await interaction.reply({ embeds: [scrambleEmbed] });
 
-        const filter = response => {
-            return response.author.id === interaction.user.id;
+        const filtro = respuesta => {
+            return respuesta.author.id === interaction.user.id;
         };
         try {
-            const collected = await interaction.channel.awaitMessages({ filter, max: 1, time: 30000, errors: ['time'] });
-            const userAnswer = collected.first().content;
+            const recogido = await interaction.channel.awaitMessages({ filter: filtro, max: 1, time: 30000, errors: ['time'] });
+            const respuestaUsuario = recogido.first().content;
 
-            if (userAnswer.toLowerCase() === word.toLowerCase()) {
-                await interaction.followUp('Correct! 🎉');
+            if (respuestaUsuario.toLowerCase() === palabra.toLowerCase()) {
+                await interaction.followUp('¡Correcto! 🎉');
             } else {
-                await interaction.followUp(`Wrong! The correct word was: ${word}`);
+                await interaction.followUp(`¡Incorrecto! La palabra correcta era: ${palabra}`);
             }
         } catch (error) {
-            await interaction.followUp('You took too long to answer!');
+            await interaction.followUp('¡Tardaste mucho en responder!');
         }
     },
 };
@@ -97,9 +96,9 @@ module.exports = {
 DISCORD :  https://discord.com/invite/xQF9f9yUEM                   
 YouTube : https://www.youtube.com/@GlaceYT                         
 
-Command Verified : ✓  
-Website        : ssrr.tech  
-Test Passed    : ✓
+Comando Verificado : ✓  
+Sitio Web         : ssrr.tech  
+Prueba Superada   : ✓
 
 ☆.。.:*・°☆.。.:*・°☆.。.:*・°☆.。.:*・°☆
 */
