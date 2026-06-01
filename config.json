@@ -1,24 +1,47 @@
 {
-    "token": "",
-    "language": "en",
-    "prefix": "!",
-    "mongodbUri": "",
-    "excessCommands": {
-        "utility": true,
-        "other": true,
-        "hentai": false,
-        "troll": true,
-        "economy" : true
+  "token": "",
+  "language": "en",
+  "prefix": "!",
+  "mongodbUri": "",
+  "nodes": [
+    {
+      "name": "Node 1",
+      "host": "lavalink.jirayu.net",
+      "port": 13592,
+      "password": "youshallnotpass",
+      "secure": false
     },
-    "categories": {
-        "media": true,
-        "basic": true,
-        "utility": true,
-        "moderation": true,
-        "core" :true,
-        "lavalink": true,
-        "fun": true,
-        "distube": true,
-        "setups": true
+    {
+      "name": "Node 2",
+      "host": "lavalinkv4.serenetia.com",
+      "port": 80,
+      "password": "https://seretia.link/discord",
+      "secure": false
+    },
+    {
+      "name": "Node 3",
+      "host": "lavalink.triniumhost.com",
+      "port": 2333,
+      "password": "kirito",
+      "secure": false
     }
+  ],
+  "excessCommands": {
+    "utility": true,
+    "other": true,
+    "hentai": false,
+    "troll": true,
+    "economy": true
+  },
+  "categories": {
+    "media": true,
+    "basic": true,
+    "utility": true,
+    "moderation": true,
+    "core": true,
+    "lavalink": true,
+    "fun": true,
+    "distube": true,
+    "setups": true
+  }
 }
